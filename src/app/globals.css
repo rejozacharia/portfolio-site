@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+  :root {
+    --background: #F9FAFB; /* Soft off-white */
+    --foreground: #2C3E50; /* Charcoal for text */
+    --header-bg: #2C3E50;   /* Charcoal for header */
+    --accent: #F39C12;      /* Amber accent */
+  }
+  
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --font-sans: var(--font-geist-sans); /* Will be replaced */
+    --font-mono: var(--font-geist-mono); /* Will be replaced */
+  }
+  
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    /* font-family will be set in layout.tsx */
+  }
