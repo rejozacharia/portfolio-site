@@ -1,14 +1,17 @@
-import type { NextConfig } from "next";
+// next.config.js or next.config.ts
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // allow your custom dev origins alongside localhost
+  // Your existing options, e.g. allowedDevOrigins:
   allowedDevOrigins: [
-    "me.zactower.com",
-    "portfolio.zactower.com",
-    // or wildcard for all subdomains:
-    "*.zactower.com",
+    'me.zactower.com',
+    'portfolio.zactower.com',
+    '*.zactower.com',
+    'rejozmathew.com',
   ],
-  // other config options here
+
+  // *** Add this line to enable standalone output ***
+  output: 'standalone',
 };
 
 export default nextConfig;
