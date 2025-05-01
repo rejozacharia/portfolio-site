@@ -5,7 +5,7 @@ html {
 }
 
 :root {
-  --background: #5a8ec2; /* Soft off-white */
+  --background: #f9fafb; /* Soft off-white */
   --foreground: #2c3e50; /* Charcoal for text */
   --header-bg: #2c3e50; /* Charcoal for header */
   /* --accent: #F39C12; */ /* Accent color removed, use 'primary' from tailwind.config.ts */

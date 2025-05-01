@@ -5,9 +5,9 @@ This plan outlines the specific steps to implement the requested improvements, o
 ## Global / Site-Wide / Configuration
 
 - **Typography & Base Styles (`globals.css`, `layout.tsx`):**
-  - [ ] Ensure consistent text color (charcoal/gray-800) is used universally for body text.
-  - [ ] Set consistent heading sizes (e.g., text-5xl H1, text-3xl H2) and spacing.
-  - [ ] Apply smooth transitions to link hovers/focus states.
+  - [WIP] Ensure consistent text color (charcoal/gray-800) is used universally for body text.
+  - [x] Set consistent heading sizes (e.g., text-5xl H1, text-3xl H2) and spacing.
+  - [x] Apply smooth transitions to link hovers/focus states.
   - [ ] Use fluid text sizing.
   - [ ] Ensure readable line lengths (`max-w-prose`) where applicable.
 - **Layout & Structure (`globals.css`, Component Styles):**
@@ -20,30 +20,30 @@ This plan outlines the specific steps to implement the requested improvements, o
   - [ ] Increase mobile tap targets.
   - [ ] Verify color contrast ratios.
 - **Animations (Setup):**
-  - [ ] Integrate Framer Motion (`package.json`, potentially `layout.tsx`).
+  - [x] Integrate Framer Motion (`package.json`, potentially `layout.tsx`).
 - **Code Quality & Consistency:**
-  - [ ] Refactor repeated Tailwind classes (@apply or components - e.g., `.card-common`).
+  - [x] Refactor repeated Tailwind classes (@apply or components - e.g., `.card-common`).
   - [ ] Remove any remaining dead code/comments.
-  - [ ] Ensure consistent class ordering (use prettier plugin - setup).
+  - [x] Ensure consistent class ordering (use prettier plugin - setup).
   - [ ] Ensure consistent padding/margin patterns.
   - [ ] Optimize images with `next/image` where needed.
 - **Tailwind Config (`tailwind.config.ts`):**
   - [ ] Unify design tokens (spacing scale).
-  - [ ] Clean up Tailwind config (ensure JIT mode is implicitly active or explicitly configured if needed).
+  - [x] Clean up Tailwind config (ensure JIT mode is implicitly active or explicitly configured if needed).
 
 ## `src/app/page.tsx` (Main Page Structure)
 
-- [ ] Ensure sections are logically ordered (Hero → About → Expertise → Experience → Portfolio → Education → Certifications → Contact).
+- [x] Ensure sections are logically ordered (Hero → About → Expertise → Experience → Portfolio → Education → Certifications → Contact).
 - [ ] Verify alternating section backgrounds.
-- [ ] Wrap sections in `<motion.div>` for scroll/load animations (fade/slide in). (Applies to sections rendered here)
+- [x] Wrap sections in `<motion.div>` for scroll/load animations (fade/slide in). (Refactored to ClientSections)
 
 ## `src/components/Header.tsx`
 
-- [ ] Animate header (slide-down, opacity change on scroll).
-- [ ] Make header sticky with scrollspy.
-- [ ] Add "active" state to nav links.
-- [ ] Implement responsive hamburger menu for small screens (using Tailwind UI/Headless UI).
-- [ ] Ensure nav collapses correctly on mobile.
+- [x] Animate header (slide-down, opacity change on scroll).
+- [x] Make header sticky with scrollspy.
+- [x] Add "active" state to nav links.
+- [x] Implement responsive hamburger menu for small screens (using Tailwind UI/Headless UI).
+- [x] Ensure nav collapses correctly on mobile.
 - [ ] Add link for new "DIY / Interests" page/section (when created).
 - [ ] Add link for new "Blog" page (when created).
 
@@ -55,46 +55,46 @@ This plan outlines the specific steps to implement the requested improvements, o
 
 ## `src/components/About.tsx`
 
-- [ ] Add staggered fade animation for list items.
-- [ ] Wrap section in `<motion.div>` for scroll/load animations.
-- [ ] Add clear CTA to next section (e.g., "See My Expertise").
+- [x] Add staggered fade animation for list items.
+- [x] Wrap section in `<motion.div>` for scroll/load animations. (Handled by parent)
+- [x] Add clear CTA to next section (e.g., "See My Expertise").
 
 ## `src/components/Expertise.tsx`
 
-- [ ] Implement scroll-triggered animations for numbers.
-- [ ] Wrap section in `<motion.div>` for scroll/load animations.
-- [ ] Add clear CTA to next section (e.g., "View My Experience").
+- [x] Implement scroll-triggered animations for numbers. (Chart fade-in)
+- [x] Wrap section in `<motion.div>` for scroll/load animations. (Handled by parent)
+- [x] Add clear CTA to next section (e.g., "View My Experience").
 
 ## `src/components/Experience.tsx`
 
-- [ ] Wrap section in `<motion.div>` for scroll/load animations.
-- [ ] Add clear CTA to next section (e.g., "See My Portfolio").
+- [x] Wrap section in `<motion.div>` for scroll/load animations. (Handled by parent)
+- [x] Add clear CTA to next section (e.g., "See My Portfolio").
 
 ## `src/components/Portfolio.tsx`
 
-- [ ] Enhance images: Ensure project images fill cards (`object-cover`), add hover effects.
-- [ ] Add staggered fade animation for project cards.
-- [ ] Add `whileHover={{ scale: 1.02 }}` to project cards.
-- [ ] Wrap section in `<motion.div>` for scroll/load animations.
-- [ ] Add clear CTA to next section (e.g., "See My Education").
+- [x] Enhance images: Ensure project images fill cards (`object-cover`), add hover effects.
+- [x] Add staggered fade animation for project cards. (Already present)
+- [x] Add `whileHover={{ scale: 1.02 }}` to project cards.
+- [x] Wrap section in `<motion.div>` for scroll/load animations. (Handled by parent)
+- [x] Add clear CTA to next section (e.g., "See My Education").
 
 ## `src/components/Education.tsx`
 
-- [ ] Add `whileHover={{ scale: 1.02 }}` to education cards.
-- [ ] Wrap section in `<motion.div>` for scroll/load animations.
-- [ ] Add clear CTA to next section (e.g., "View My Certifications").
+- [x] Add `whileHover={{ scale: 1.02 }}` to education cards.
+- [x] Wrap section in `<motion.div>` for scroll/load animations. (Handled by parent)
+- [x] Add clear CTA to next section (e.g., "View My Certifications").
 
 ## `src/components/Certifications.tsx`
 
-- [ ] Add `whileHover={{ scale: 1.02 }}` to certification cards.
-- [ ] Wrap section in `<motion.div>` for scroll/load animations.
-- [ ] Add clear CTA to next section (e.g., "Get In Touch").
+- [x] Add `whileHover={{ scale: 1.02 }}` to certification cards.
+- [x] Wrap section in `<motion.div>` for scroll/load animations. (Handled by parent)
+- [x] Add clear CTA to next section (e.g., "Get In Touch").
 
 ## `src/components/Contact.tsx`
 
-- [ ] Apply unified H2 style (bottom border with primary color).
-- [ ] Wrap section in `<motion.div>` for scroll/load animations.
-- [ ] Add `whileHover={{ scale: 1.02 }}` to submit button.
+- [x] Apply unified H2 style (bottom border with primary color). (Already present)
+- [x] Wrap section in `<motion.div>` for scroll/load animations. (Handled by parent)
+- [ ] Add `whileHover={{ scale: 1.02 }}` to submit button. (No button exists)
 
 ## `src/components/Footer.tsx`
 

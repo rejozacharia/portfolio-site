@@ -12,8 +12,8 @@ const navLinks = [
   { href: "#portfolio", label: "Portfolio" },
   { href: "#education", label: "Education" },
   { href: "#certifications", label: "Certifications" },
+  { href: "/blog", label: "Blog" },
   { href: "#contact", label: "Contact" },
-  // { href: "/blog", label: "Blog" }, // Future link
   // { href: "/interests", label: "Interests" }, // Future link
 ];
 
