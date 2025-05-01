@@ -1,6 +1,6 @@
 # Portfolio Site
 
-This is a personal portfolio website built with [Next.js](https://nextjs.org), [Tailwind CSS](https://tailwindcss.com/), and [TypeScript](https://www.typescriptlang.org/). It showcases projects, skills, experience, and interests.
+This is a personal portfolio website built with [Next.js](https://nextjs.org), [Tailwind CSS](https://tailwindcss.com/), and [TypeScript](https://www.typescriptlang.org/). It showcases basic profile, projects, skills, experience, and interests. The repository is set up for my profile but it can be forked and edited by anyone for their own content.
 
 ## Features
 
