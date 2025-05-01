@@ -1,53 +1,81 @@
-import React from 'react';
-import Image from 'next/image'; // Import Image for potential photo later
+"use client"; // Make this a Client Component to use framer-motion
+
+import Image from 'next/image';
+import React from "react";
+import { motion } from "framer-motion"; // Import motion
+
+// Define animation variants (copied from ClientSections for consistency)
+const sectionVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
 
 const Hero: React.FC = () => {
   return (
-    // Light theme: Very light gray background, dark text, blue accents
-    <section id="hero" className="min-h-screen flex items-center justify-center bg-gray-50 py-20">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
+    <motion.div // Wrap the section with motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={sectionVariants}
+    >
+      {/* Light theme: Very light gray background, dark text, blue accents */}
+      <section
+      id="hero"
+      className="flex min-h-screen items-center justify-center bg-gray-50 py-20"
+    >
+      <div className="container mx-auto flex flex-col items-center gap-8 px-4 md:flex-row">
         {/* Text Content */}
-        <div className="md:w-1/2 text-center md:text-left">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-gray-900">
+        <div className="text-center md:w-1/2 md:text-left">
+          {/* Consistent H1 size (md and up) */}
+          <h1 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">
             Rejo Z Mathew
           </h1>
-          <h2 className="text-2xl md:text-3xl font-semibold text-blue-600 mb-6">
+          <h2 className="text-primary mb-6 text-2xl font-semibold md:text-3xl">
             AI & Data Strategy Leader in Financial Services
           </h2>
-          <p className="text-lg text-gray-700 mb-8">
-            Bridging advanced technology and business strategy to drive innovation and ROI in the financial sector.
+          <p className="mb-8 text-lg text-gray-700">
+            Bridging advanced technology and business strategy to drive
+            innovation and ROI in the financial sector.
           </p>
           {/* Buttons with blue accent */}
-          <div className="flex justify-center md:justify-start gap-4">
-             <a href="#portfolio" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 shadow">
-               View Portfolio
-             </a>
-             <a href="#contact" className="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition duration-300 shadow">
-               Contact Me
-             </a>
+          <div className="flex justify-center gap-4 md:justify-start">
+            <a
+              href="#portfolio"
+              className="bg-primary hover:bg-primary/90 rounded px-4 py-2 font-bold text-white shadow transition duration-300"
+            >
+              View Portfolio
+            </a>
+            <a
+              href="#contact"
+              className="rounded bg-gray-700 px-4 py-2 font-bold text-white shadow transition duration-300 hover:bg-gray-800"
+            >
+              Contact Me
+            </a>
           </div>
         </div>
 
         {/* Image Placeholder */}
-        <div className="md:w-1/2 flex justify-center">
-          {/* Replace this div with Image component once URL is provided */}
-          <div className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 shadow-lg">
-            {/* Placeholder text or icon */}
-            <span>Profile Photo</span>
-          </div>
-          {/* Example using Next/Image (commented out until URL is available)
+        <div className="flex justify-center md:w-1/2">
+          {/* Profile Image */}
           <Image
-            src="/path/to/your/profile-picture.jpg" // Replace with actual URL
+            src="/profile_pic.jpg" // Assumes image is moved to public/profile_pic.jpg
             alt="Rejo Z Mathew - Profile Picture"
-            width={400} // Adjust as needed
-            height={400} // Adjust as needed
+            width={400} // Adjust width as needed
+            height={400} // Adjust height as needed
             className="rounded-full shadow-lg"
             priority // Load image priority
           />
-          */}
         </div>
       </div>
-    </section>
+      </section>
+    </motion.div>
   );
 };
 

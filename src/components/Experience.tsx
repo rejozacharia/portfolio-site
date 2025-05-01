@@ -1,7 +1,8 @@
-'use client'; // Mark component as client-side for framer-motion
+"use client"; // Mark component as client-side for framer-motion
 
-import React from 'react';
-import { motion } from 'framer-motion'; // Import motion
+import React from "react";
+import { motion } from "framer-motion"; // Import motion
+import Link from "next/link"; // Import Link for CTA
 
 interface ExperienceItem {
   company: string;
@@ -16,7 +17,8 @@ const experiences: ExperienceItem[] = [
   {
     company: "Discover Financial Services",
     location: "Chicago",
-    title: "SR. DIRECTOR, MIS, Data Science, BI & Data Infrastructure Management, DNA",
+    title:
+      "SR. DIRECTOR, MIS, Data Science, BI & Data Infrastructure Management, DNA",
     dates: "June 2022 – Till Date",
     description: [
       "Head of MIS, Data Science, BI, and Data Management/Engineering for DNA organization.",
@@ -123,40 +125,55 @@ const fadeInAnimationVariants = {
   }),
 };
 
-
 const Experience: React.FC = () => {
   return (
     // Light theme: White background, dark text, blue timeline accents
-    <section id="experience" className="py-20 bg-white">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
+    <section id="experience" className="bg-white py-20">
+      <div className="container mx-auto max-w-4xl px-4">
+        {/* Unified H2 style */}
+        <h2 className="border-primary mb-12 border-b-2 pb-2 text-center text-3xl font-bold text-gray-900">
           Professional Experience
         </h2>
         {/* Adjusted timeline line color */}
-        <div className="relative space-y-12 before:absolute before:top-0 before:left-[5px] before:bottom-0 before:w-1 before:bg-gray-300">
+        <div className="relative space-y-12 before:absolute before:top-0 before:bottom-0 before:left-[5px] before:w-1 before:bg-gray-300">
           {experiences.map((exp, index) => (
             <motion.div
               key={index}
-              className="relative pl-10 pb-8 last:pb-0"
+              className="relative pb-8 pl-10 last:pb-0"
               variants={fadeInAnimationVariants}
               initial="initial"
               whileInView="animate"
               viewport={{ once: true }}
               custom={index}
             >
-               {/* Adjusted dot border color */}
-               <div className="absolute w-4 h-4 bg-blue-600 rounded-full left-0 top-1 border-4 border-white"></div>
-               {/* Adjusted text colors */}
-               <h3 className="text-xl font-semibold text-gray-900">{exp.title}</h3>
-               <p className="text-md font-medium text-blue-700">{exp.company}{exp.location ? `, ${exp.location}` : ''}</p>
-               <p className="text-sm text-gray-500 mb-2">{exp.dates}</p>
-               <ul className="list-disc list-inside space-y-1 text-gray-700">
-                 {exp.description.map((item, idx) => (
-                   <li key={idx}>{item}</li>
-                 ))}
-               </ul>
+              {/* Adjusted dot border color */}
+              <div className="bg-primary absolute top-1 left-0 h-4 w-4 rounded-full border-4 border-white"></div>
+              {/* Adjusted text colors */}
+              <h3 className="text-xl font-semibold text-gray-900">
+                {exp.title}
+              </h3>
+              <p className="text-md text-primary font-medium">
+                {exp.company}
+                {exp.location ? `, ${exp.location}` : ""}
+              </p>
+              <p className="mb-2 text-sm text-gray-500">{exp.dates}</p>
+              <ul className="list-inside list-disc space-y-1 text-sm text-gray-700">
+                {exp.description.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
             </motion.div>
           ))}
+        </div>
+
+        {/* CTA Button */}
+        <div className="mt-16 text-center">
+          <Link
+            href="#portfolio"
+            className="bg-primary hover:bg-primary/90 inline-block rounded px-6 py-3 text-lg font-semibold text-white shadow transition duration-300"
+          >
+            See My Portfolio
+          </Link>
         </div>
       </div>
     </section>

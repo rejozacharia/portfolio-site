@@ -1,23 +1,157 @@
-import React from 'react';
-import Link from 'next/link';
+"use client"; // This component needs client-side interactivity
+
+import React, { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react"; // Using lucide-react for icons
+
+const navLinks = [
+  { href: "#about", label: "About" },
+  { href: "#expertise", label: "Expertise" },
+  { href: "#experience", label: "Experience" },
+  { href: "#portfolio", label: "Portfolio" },
+  { href: "#education", label: "Education" },
+  { href: "#certifications", label: "Certifications" },
+  { href: "#contact", label: "Contact" },
+  // { href: "/blog", label: "Blog" }, // Future link
+  // { href: "/interests", label: "Interests" }, // Future link
+];
 
 const Header: React.FC = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleScroll = useCallback(() => {
+    const scrollY = window.scrollY;
+    // Update scroll state for header background/shadow
+    setIsScrolled(scrollY > 10);
+
+    // Basic Scrollspy Logic
+    let currentSection = "";
+    navLinks.forEach((link) => {
+      if (link.href.startsWith("#")) {
+        const section = document.getElementById(link.href.substring(1));
+        if (section) {
+          const sectionTop = section.offsetTop - 80; // Adjust offset for header height
+          const sectionBottom = sectionTop + section.offsetHeight;
+          if (scrollY >= sectionTop && scrollY < sectionBottom) {
+            currentSection = link.href;
+          }
+        }
+      }
+    });
+
+    // Fallback if no section is actively in view (e.g., top or bottom of page)
+    if (!currentSection && scrollY < 200) {
+        currentSection = "#"; // Or maybe the first section like #hero if it exists
+    }
+
+    setActiveSection(currentSection);
+  }, []); // No dependencies needed if navLinks is stable
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Initial check
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [handleScroll]);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   return (
-    // Light theme header: white background, shadow, dark text, blue accent on hover
-    <header className="bg-white text-gray-800 p-4 sticky top-0 z-50 shadow-md">
-      <nav className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="text-xl font-bold text-gray-900">Rejo Z Mathew</Link>
-        <div className="space-x-1 md:space-x-3"> {/* Added spacing */}
-          <Link href="#about" className="px-2 md:px-3 hover:text-blue-600 transition duration-300">About</Link>
-          <Link href="#expertise" className="px-2 md:px-3 hover:text-blue-600 transition duration-300">Expertise</Link>
-          <Link href="#experience" className="px-2 md:px-3 hover:text-blue-600 transition duration-300">Experience</Link>
-          <Link href="#portfolio" className="px-2 md:px-3 hover:text-blue-600 transition duration-300">Portfolio</Link>
-          <Link href="#education" className="px-2 md:px-3 hover:text-blue-600 transition duration-300">Education</Link>
-          <Link href="#certifications" className="px-2 md:px-3 hover:text-blue-600 transition duration-300">Certifications</Link>
-          <Link href="#contact" className="px-2 md:px-3 hover:text-blue-600 transition duration-300">Contact</Link>
+    <motion.header
+      className={`sticky top-0 z-50 w-full transition-colors duration-300 ease-in-out ${
+        isScrolled
+          ? "bg-white/90 shadow-md backdrop-blur-sm"
+          : "bg-transparent shadow-none"
+      }`}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
+      <nav className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+        <Link
+          href="/"
+          className={`text-xl font-bold transition-colors duration-300 ${
+            isScrolled ? "text-gray-900" : "text-white" // Adjust initial text color if needed
+          }`}
+          onClick={closeMobileMenu}
+        >
+          Rejo Z Mathew
+        </Link>
+
+        {/* Desktop Navigation */}
+        <div className="hidden space-x-1 md:flex md:space-x-3">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`rounded px-3 py-1 text-sm font-medium transition-colors duration-200 ease-in-out hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 ${
+                activeSection === link.href
+                  ? "text-primary font-semibold"
+                  : isScrolled
+                    ? "text-gray-700 hover:text-primary"
+                    : "text-gray-200 hover:text-white" // Adjust initial link color
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="md:hidden">
+          <button
+            onClick={toggleMobileMenu}
+            aria-label="Toggle menu"
+            className={`rounded p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50 ${
+              isScrolled ? "text-gray-800" : "text-white"
+            }`}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </nav>
-    </header>
+
+      {/* Mobile Menu Dropdown */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="absolute left-0 top-full w-full origin-top overflow-hidden bg-white shadow-lg md:hidden"
+          >
+            <div className="flex flex-col space-y-1 px-4 pb-4 pt-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={closeMobileMenu} // Close menu on link click
+                  className={`block rounded px-3 py-2 text-base font-medium transition-colors duration-200 ease-in-out hover:bg-gray-100 hover:text-primary ${
+                    activeSection === link.href
+                      ? "bg-primary/10 text-primary"
+                      : "text-gray-700"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 };
 

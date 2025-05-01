@@ -1,4 +1,8 @@
-import React from 'react';
+"use client"; // Needs client-side animation & hover effects
+
+import React from "react";
+import { motion } from "framer-motion"; // Import motion
+import Link from "next/link"; // Import Link for CTA
 
 interface EducationItem {
   institution: string;
@@ -32,24 +36,68 @@ const educationHistory: EducationItem[] = [
   },
 ];
 
+// Animation variants for cards
+const cardAnimationVariants = {
+  initial: {
+    opacity: 0,
+    y: 50,
+  },
+  animate: (index: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.1 * index,
+      duration: 0.5,
+    },
+  }),
+};
+
 const Education: React.FC = () => {
   return (
     // Light theme: White background, light gray cards, dark text
-    <section id="education" className="py-20 bg-white">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
+    <section id="education" className="bg-white py-20">
+      <div className="container mx-auto max-w-4xl px-4">
+        {/* Unified H2 style */}
+        <h2 className="border-primary mb-12 border-b-2 pb-2 text-center text-3xl font-bold text-gray-900">
           Education
         </h2>
         <div className="space-y-8">
           {educationHistory.map((edu, index) => (
-            // Light gray card background, dark text
-            <div key={index} className="p-6 border border-gray-200 rounded-lg shadow-sm bg-gray-50">
-              <h3 className="text-xl font-semibold text-gray-900">{edu.institution}</h3>
-              {edu.location && <p className="text-sm text-gray-500 mb-1">{edu.location}</p>}
-              <p className="text-lg font-medium text-blue-700">{edu.degree} ({edu.year})</p>
-              {edu.details && <p className="text-md text-gray-800 mt-1">{edu.details}</p>}
-            </div>
+            <motion.div
+              key={index}
+              className="card-common" // Applied common card style
+              variants={cardAnimationVariants}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              custom={index}
+              whileHover={{ scale: 1.02 }} // Added hover scale effect
+              transition={{ type: "spring", stiffness: 300, damping: 20 }} // Smooth spring animation for hover
+            >
+              <h3 className="text-xl font-semibold text-gray-900">
+                {edu.institution}
+              </h3>
+              {edu.location && (
+                <p className="mb-1 text-sm text-gray-500">{edu.location}</p>
+              )}
+              <p className="text-primary text-lg font-medium">
+                {edu.degree} ({edu.year})
+              </p>
+              {edu.details && (
+                <p className="text-md mt-1 text-gray-800">{edu.details}</p>
+              )}
+            </motion.div>
           ))}
+        </div>
+
+        {/* CTA Button */}
+        <div className="mt-16 text-center">
+          <Link
+            href="#certifications"
+            className="bg-primary hover:bg-primary/90 inline-block rounded px-6 py-3 text-lg font-semibold text-white shadow transition duration-300"
+          >
+            View My Certifications
+          </Link>
         </div>
       </div>
     </section>

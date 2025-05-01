@@ -1,7 +1,17 @@
-'use client'; // Mark component as client-side for recharts
+"use client"; // Mark component as client-side for recharts & motion
 
-import React from 'react';
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip } from 'recharts';
+import React from "react";
+import {
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
+import { motion } from "framer-motion"; // Import motion
+import Link from "next/link"; // Import Link for CTA
 
 // Define skill categories and items based on resume/instructions
 const expertiseAreas = [
@@ -56,7 +66,7 @@ const expertiseAreas = [
       "Data Visualization",
     ],
   },
-   {
+  {
     title: "Technologies & Tools", // Keep this for the list view
     skills: [
       "Cloud Platforms (AWS Certified)",
@@ -72,53 +82,113 @@ const expertiseAreas = [
 
 // Sample data for the Radar chart (adjust scores as needed)
 const skillProficiencyData = [
-  { subject: 'Leadership', A: 95, fullMark: 100 },
-  { subject: 'AI/ML', A: 90, fullMark: 100 },
-  { subject: 'Data Eng.', A: 85, fullMark: 100 },
-  { subject: 'BI/Analytics', A: 88, fullMark: 100 },
-  { subject: 'Technology', A: 80, fullMark: 100 },
+  { subject: "Leadership", A: 95, fullMark: 100 },
+  { subject: "AI/ML", A: 90, fullMark: 100 },
+  { subject: "Data Eng.", A: 85, fullMark: 100 },
+  { subject: "BI/Analytics", A: 88, fullMark: 100 },
+  { subject: "Technology", A: 80, fullMark: 100 },
 ];
 
+// Animation variants for fade-in effect
+const fadeInVariant = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
 
 const Expertise: React.FC = () => {
   return (
     // Light theme: Light gray background, white cards, dark text
-    <section id="expertise" className="py-20 bg-gray-100">
+    <section id="expertise" className="bg-gray-100 py-20">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
+        {/* Unified H2 style */}
+        <h2 className="border-primary mb-12 border-b-2 pb-2 text-center text-3xl font-bold text-gray-900">
           Expertise & Skills
         </h2>
 
-        {/* Radar Chart Visualization */}
-        <div className="mb-16 h-80 md:h-96">
-           <h3 className="text-2xl font-semibold text-center mb-6 text-gray-800">Core Competency Overview</h3>
-           <ResponsiveContainer width="100%" height="100%">
+        {/* Radar Chart Visualization - Wrapped for animation */}
+        <motion.div
+          className="mb-16 h-80 md:h-96"
+          variants={fadeInVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <h3 className="mb-6 text-center text-2xl font-semibold text-gray-800">
+            Core Competency Overview
+          </h3>
+          <ResponsiveContainer width="100%" height="100%">
             {/* Adjusted chart colors for light theme */}
-            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={skillProficiencyData}>
+            <RadarChart
+              cx="50%"
+              cy="50%"
+              outerRadius="80%"
+              data={skillProficiencyData}
+            >
               <PolarGrid stroke="#d1d5db" /> {/* Lighter grid lines */}
-              <PolarAngleAxis dataKey="subject" stroke="#4b5563" /> {/* Darker axis text */}
-              <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-              <Radar name="Proficiency" dataKey="A" stroke="#2563eb" fill="#3b82f6" fillOpacity={0.6} /> {/* Blue accent */}
-              <Tooltip contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', border: '1px solid #d1d5db' }} /> {/* Light tooltip */}
+              <PolarAngleAxis dataKey="subject" stroke="#4b5563" />{" "}
+              {/* Darker axis text */}
+              <PolarRadiusAxis
+                angle={30}
+                domain={[0, 100]}
+                tick={false}
+                axisLine={false}
+              />
+              <Radar
+                name="Proficiency"
+                dataKey="A"
+                stroke="#2563eb"
+                fill="#3b82f6"
+                fillOpacity={0.6}
+              />{" "}
+              {/* Blue accent */}
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "rgba(255, 255, 255, 0.8)",
+                  border: "1px solid #d1d5db",
+                }}
+              />{" "}
+              {/* Light tooltip */}
             </RadarChart>
           </ResponsiveContainer>
-        </div>
+        </motion.div>
 
-        {/* Detailed Skill Lists */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Detailed Skill Lists - Could also wrap this grid or individual cards */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {expertiseAreas.map((area) => (
             // White card background, dark text
-            <div key={area.title} className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-4 text-blue-600">{area.title}</h3>
-              <ul className="list-disc list-inside space-y-2 text-gray-700">
-                {area.skills.map((skill) => (
-                  <li key={skill}>{skill}</li>
-                ))}
+            <div key={area.title} className="rounded-lg bg-white p-6 shadow-md">
+              <h3 className="text-primary mb-4 text-xl font-semibold">
+                {area.title}
+              </h3>
+              <ul className="list-inside list-disc space-y-2 text-gray-700">
+                {area.skills.map(
+                  (
+                    skill // Removed unused 'idx'
+                  ) => (
+                    <li key={skill}>{skill}</li>
+                  )
+                )}
               </ul>
             </div>
           ))}
         </div>
 
+        {/* CTA Button */}
+        <div className="mt-16 text-center">
+          <Link
+            href="#experience"
+            className="bg-primary hover:bg-primary/90 inline-block rounded px-6 py-3 text-lg font-semibold text-white shadow transition duration-300"
+          >
+            View My Experience
+          </Link>
+        </div>
       </div>
     </section>
   );

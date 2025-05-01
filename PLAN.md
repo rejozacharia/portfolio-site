@@ -3,8 +3,9 @@
 This plan outlines the steps to build a professional portfolio website using Next.js, TypeScript, and Tailwind CSS, based on the provided resume, detailed instructions, and user preferences.
 
 **Key Projects to Highlight:**
-*   Enterprise Control Environment
-*   MarTech/CDP Implementation
+
+- Enterprise Control Environment
+- MarTech/CDP Implementation
 
 **Profile Picture URL:** [To be provided by user]
 
@@ -61,3 +62,4 @@ graph TD
     HeaderNav --> NavLinks[Navigation Links]
 
     style S7b fill:#lightgrey,stroke:#333,stroke-width:2px
+```
