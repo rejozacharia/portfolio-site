@@ -6,6 +6,7 @@ This plan outlines the steps to build a professional portfolio website using Nex
 
 - Enterprise Control Environment
 - MarTech/CDP Implementation
+- others
 
 **Profile Picture URL:** [To be provided by user]
 
@@ -63,3 +64,5 @@ graph TD
 
     style S7b fill:#lightgrey,stroke:#333,stroke-width:2px
 ```
+
+
