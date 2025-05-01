@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { usePathname } from 'next/navigation'; // Import usePathname
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react"; // Using lucide-react for icons
 
@@ -14,10 +15,11 @@ const navLinks = [
   { href: "#certifications", label: "Certifications" },
   { href: "/blog", label: "Blog" },
   { href: "#contact", label: "Contact" },
-  // { href: "/interests", label: "Interests" }, // Future link
+  { href: "/interests", label: "Interests" },
 ];
 
 const Header: React.FC = () => {
+  const pathname = usePathname(); // Get current pathname
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -91,21 +93,29 @@ const Header: React.FC = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden space-x-1 md:flex md:space-x-3">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`rounded px-3 py-1 text-sm font-medium transition-colors duration-200 ease-in-out hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 ${
-                activeSection === link.href
-                  ? "text-primary font-semibold"
+          {navLinks.map((link) => {
+            // Adjust href for hash links if not on the homepage
+            const href = (link.href.startsWith('#') && pathname !== '/')
+              ? `/${link.href}`
+              : link.href;
+
+            return (
+              <Link
+                key={link.href} // Keep original href as key for stability
+                href={href}
+                className={`rounded px-3 py-1 text-sm font-medium transition-colors duration-200 ease-in-out hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 ${
+                  // Adjust activeSection check if needed, might be complex with /#hash
+                  (activeSection === link.href && pathname === '/') // Only highlight hash links on homepage
+                    ? "text-primary font-semibold"
                   : isScrolled
                     ? "text-gray-700 hover:text-primary"
                     : "text-gray-200 hover:text-white" // Adjust initial link color
               }`}
-            >
-              {link.label}
-            </Link>
-          ))}
+              >
+                {link.label}
+              </Link>
+            ); // Add closing parenthesis for return
+          })} {/* Add closing curly brace for map callback */}
         </div>
 
         {/* Mobile Menu Button */}
@@ -133,20 +143,28 @@ const Header: React.FC = () => {
             className="absolute left-0 top-full w-full origin-top overflow-hidden bg-white shadow-lg md:hidden"
           >
             <div className="flex flex-col space-y-1 px-4 pb-4 pt-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={closeMobileMenu} // Close menu on link click
-                  className={`block rounded px-3 py-2 text-base font-medium transition-colors duration-200 ease-in-out hover:bg-gray-100 hover:text-primary ${
-                    activeSection === link.href
-                      ? "bg-primary/10 text-primary"
+              {navLinks.map((link) => {
+                 // Adjust href for hash links if not on the homepage
+                 const href = (link.href.startsWith('#') && pathname !== '/')
+                   ? `/${link.href}`
+                   : link.href;
+
+                 return (
+                   <Link
+                     key={link.href} // Keep original href as key
+                     href={href}
+                     onClick={closeMobileMenu} // Close menu on link click
+                     className={`block rounded px-3 py-2 text-base font-medium transition-colors duration-200 ease-in-out hover:bg-gray-100 hover:text-primary ${
+                       // Adjust activeSection check if needed
+                       (activeSection === link.href && pathname === '/') // Only highlight hash links on homepage
+                         ? "bg-primary/10 text-primary"
                       : "text-gray-700"
                   }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+                  >
+                    {link.label}
+                  </Link>
+                ); // Add closing parenthesis for return
+              })} {/* Add closing curly brace for map callback */}
             </div>
           </motion.div>
         )}
