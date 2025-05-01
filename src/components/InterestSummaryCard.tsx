@@ -1,42 +1,85 @@
 import React from 'react';
 import Image from 'next/image';
+import { ProjectData } from './InterestDetailModal'; // Import the full data type
 
+// Define category colors using Tailwind classes
+const categoryStyles = {
+  software: {
+    border: 'border-t-4 border-blue-500',
+    tagBg: 'bg-blue-100',
+    tagText: 'text-blue-800',
+  },
+  hardware: {
+    border: 'border-t-4 border-green-500',
+    tagBg: 'bg-green-100',
+    tagText: 'text-green-800',
+  },
+  both: {
+    border: 'border-t-4 border-purple-500',
+    tagBg: 'bg-purple-100',
+    tagText: 'text-purple-800',
+  },
+};
+
+// Update props to accept category and tags
 interface InterestSummaryCardProps {
-  title: string;
-  briefDescription: string;
-  imageUrl?: string; // Optional image for the card
+  project: Pick<ProjectData, 'title' | 'briefDescription' | 'cardImageUrl' | 'category' | 'tags'>;
   onClick: () => void; // Function to call when card is clicked
 }
 
 const InterestSummaryCard: React.FC<InterestSummaryCardProps> = ({
-  title,
-  briefDescription,
-  imageUrl,
+  project,
   onClick,
 }) => {
+  const { title, briefDescription, cardImageUrl, category, tags } = project;
+  const styles = categoryStyles[category] || categoryStyles.software; // Default to software style
+
   return (
     <div
-      className="border rounded-lg overflow-hidden shadow-md bg-white cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+      className={`rounded-lg overflow-hidden shadow-md bg-white cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-lg flex flex-col ${styles.border}`}
       onClick={onClick}
     >
-      {imageUrl ? (
-        <div className="relative h-40 w-full">
+      {/* Image Section */}
+      <div className="relative h-40 w-full flex-shrink-0">
+        {cardImageUrl ? (
           <Image
-            src={imageUrl}
+            src={cardImageUrl}
             alt={`${title} preview`}
             layout="fill"
             objectFit="cover"
             className="bg-gray-200"
           />
-        </div>
-      ) : (
-        <div className="h-40 w-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-           <span className="text-gray-500 text-sm">No Image</span>
-        </div>
-      )}
-      <div className="p-4">
+        ) : (
+          <div className="h-full w-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+            <span className="text-gray-500 text-sm">No Image</span>
+          </div>
+        )}
+      </div>
+
+      {/* Content Section */}
+      <div className="p-4 flex flex-col flex-grow">
         <h3 className="text-xl font-semibold mb-2 text-gray-800">{title}</h3>
-        <p className="text-sm text-gray-600 line-clamp-3">{briefDescription}</p>
+        <p className="text-sm text-gray-600 line-clamp-3 mb-3 flex-grow">{briefDescription}</p>
+
+        {/* Tags Section */}
+        {tags && tags.length > 0 && (
+          <div className="mt-auto pt-2 border-t border-gray-100">
+             <p className="text-xs font-medium text-gray-500 mb-1.5">Tags:</p>
+            <div className="flex flex-wrap gap-1.5">
+              {tags.slice(0, 5).map((tag) => ( // Limit tags shown on card
+                <span
+                  key={tag}
+                  className={`px-2 py-0.5 rounded-full text-xs font-medium ${styles.tagBg} ${styles.tagText}`}
+                >
+                  {tag}
+                </span>
+              ))}
+               {tags.length > 5 && (
+                 <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${styles.tagBg} ${styles.tagText}`}>...</span>
+               )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

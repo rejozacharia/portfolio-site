@@ -10,12 +10,14 @@ const projects: ProjectData[] = [
     id: 'ebook-abridger',
     title: "Ebook Abridger",
     briefDescription: "AI-powered tool to create summarized versions of EPUB ebooks.",
+    category: 'software', // Correctly placed category
+    tags: ['Python', 'AI/LLM', 'LangChain', 'CLI', 'GUI', 'EPUB'], // Correctly placed tags
     description: "A Python application to generate abridged versions of EPUB ebooks using Large Language Models (LLMs). It preserves chapter structure, narrative flow, and key elements while reducing length based on user settings.",
     explanation: "The application reads an EPUB file, then uses AI (specifically, Large Language Models via LangChain) to summarize each chapter individually. It automatically detects if the book is fiction or non-fiction to adjust the summarization style. Short chapters can be skipped. Finally, it combines these summaries into a new, shorter EPUB file, preserving the original's metadata.",
     features: [
       "EPUB Input/Output (preserving metadata)",
       "AI-Powered Summarization (chapter-by-chapter + overall)",
-      "Adjustable Summary Length",
+      "Adjustable Summary Length", // Added this feature back
       "Genre Auto-detection for better summaries",
       "Option to Skip Short Chapters",
       "Error Reporting for failed chapters",
@@ -25,10 +27,10 @@ const projects: ProjectData[] = [
       "Supports multiple LLM providers (Gemini, Ollama, OpenRouter)",
     ],
     githubUrl: "https://github.com/rejozacharia/ebook-abridger",
-    cardImageUrl: "/images/ebook-abridger-gui.png", // Image for the summary card
+    cardImageUrl: "/images/DIY/ebook-abridger/ebook-abridger-gui.png", // Image for the summary card
     imageUrls: [ // Images for the modal detail view
-      "/images/ebook-abridger-gui.png",
-      "/images/ebook-abridger-complete.png",
+      "/images/DIY/ebook-abridger/ebook-abridger-gui.png",
+      "/images/DIY/ebook-abridger/ebook-abridger-complete.png",
       // Add more image paths here if needed
     ],
   },
@@ -38,6 +40,8 @@ const projects: ProjectData[] = [
   //   id: 'another-project',
   //   title: "Another Cool Project",
   //   briefDescription: "Brief description for the card.",
+  //   category: 'hardware',
+  //   tags: ['Raspberry Pi', 'Sensors', 'IoT'],
   //   description: "Full description for the modal.",
   //   explanation: "How this other project works.",
   //   features: ["Feature A", "Feature B"],
@@ -73,9 +77,7 @@ const InterestsPage = () => {
         {projects.map((project) => (
           <InterestSummaryCard
             key={project.id}
-            title={project.title}
-            briefDescription={project.briefDescription}
-            imageUrl={project.cardImageUrl}
+            project={project} // Pass the whole project object
             onClick={() => openModal(project)}
           />
         ))}
