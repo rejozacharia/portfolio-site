@@ -1,0 +1,72 @@
+## Hardware Overview
+
+### CPU & Motherboard
+For a NAS that also runs VMs and Docker, a multi-core, low-power processor is ideal. Many hobbyist builds opt for an Intel Core i3-12100T (~35 W TDP) paired with an ATX motherboard offering at least eight SATA ports or an LSI HBA for expansion.
+
+![Placeholder: CPU and Motherboard](path/to/hardware-cpu_mobo.png)
+
+### Memory
+While Unraid doesn’t strictly require ECC RAM, running VMs and containers benefits from ample memory. A baseline of 16 GB DDR4 is common, with plans to expand to 32 GB if you host multiple Ubuntu VMs or memory-intensive services.
+
+### Storage: Parity, Data & Cache
+Data Drives: Use NAS-rated HDDs (e.g., Seagate IronWolf) in a parity-protected array to guard against drive failures.
+
+Parity Drive: At least one parity disk—ideally the largest size in your array—to protect your data.
+
+Cache Pool: A pair of NVMe SSDs configured in RAID 1 serves as the cache pool, accelerating writes and supporting Docker image storage.
+
+![Placeholder: Drive Bay Layout](path/to/drive-bay_layout.png)
+
+### Power Supply & Cooling
+A high-efficiency (80 Plus Gold) PSU around 650–750 W (e.g., Corsair RM750x) provides ample headroom. Ensure good case airflow with at least two intake and one exhaust fan; dust filters help keep drives healthy.
+
+### Networking
+While 1 GbE suffices for backups and light use, consider adding a 2.5 GbE or 10 GbE NIC for faster local transfers, especially if streaming high-bitrate media or running multiple VMs.
+
+## Software Setup
+
+### Unraid OS & Array Configuration
+Install Unraid OS on a USB flash drive and boot your machine into it.
+
+Assign array disks—select your parity and data drives, then start the array.
+
+Configure the cache pool in Settings → Cache Devices, pairing your SSDs in mirrored mode for write cache.
+
+Enable user shares, choosing “Prefer” or “Only” to store certain shares on the cache for performance.
+
+![Placeholder: Unraid Dashboard Screenshot](path/to/unraid_dashboard.png)
+
+### Docker Containers
+Unraid’s built-in Docker support lets you deploy containers via the Community Applications plugin. Common services:
+
+*   Plex Media Server for streaming.
+*   Nextcloud for private cloud file syncing and collaboration.
+*   Pi-Hole or AdGuard Home for network-wide ad blocking.
+
+Each container stores its appdata on the SSD cache for fast I/O and moves data to the HDD array on idle.
+
+### Ubuntu Virtual Machines
+Use Unraid’s KVM manager to spin up Ubuntu VMs:
+
+*   Create VM with 2+ vCPUs and 4–8 GB RAM for light services, more if needed.
+*   Attach virtual disks—store VMs on cache for performance or directly on the array for larger storage.
+*   Pass-through devices (e.g., GPU for transcoding) as required.
+
+Ubuntu VMs can run specialized workloads like self-hosted code repositories, CI runners, or backup services.
+
+## Home Automation & Private Cloud
+
+### Home Assistant Integration
+Run Home Assistant in Docker or VM to manage your Ecobee thermostat and other IoT devices. Store state databases on the cache pool and backup configurations regularly to a Nextcloud share.
+
+![Placeholder: Home Assistant UI](path/to/home_assistant_ui.png)
+
+### Secure Remote Access & Web Hosting
+Reverse Proxy: Use Nginx Proxy Manager in Docker to route external traffic to services (Nextcloud, WordPress, etc.) behind dynamic DNS.
+
+TLS Certificates: Automate Let’s Encrypt issuance for secure HTTPS.
+
+Firewall & VPN: Employ Unraid’s built-in firewall rules and/or WireGuard plugin for secure remote VPN access.
+
+## Conclusion
+Building a home NAS server on Unraid combines the flexibility of Docker and VMs with robust, parity-protected storage and SSD caching. Whether you’re streaming media via Plex, syncing files with Nextcloud, automating your home with Home Assistant, or self-hosting web services, this setup delivers performance, expandability, and reliability—while keeping everything under your control.

@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import { ProjectData } from './InterestDetailModal'; // Import the full data type
+import Link from 'next/link'; // Import Link for navigation
+import { ProjectData } from '@/data/projects'; // Import the centralized data type
 
 // Define category colors using Tailwind classes
 const categoryStyles = {
@@ -14,31 +15,30 @@ const categoryStyles = {
     tagBg: 'bg-green-100',
     tagText: 'text-green-800',
   },
-  both: {
-    border: 'border-t-4 border-purple-500',
-    tagBg: 'bg-purple-100',
-    tagText: 'text-purple-800',
+  other: { // Changed 'both' to 'other' and updated style
+    border: 'border-t-4 border-gray-500',
+    tagBg: 'bg-gray-100',
+    tagText: 'text-gray-800',
   },
 };
 
-// Update props to accept category and tags
+// Update props to accept category, tags, and slug
 interface InterestSummaryCardProps {
-  project: Pick<ProjectData, 'title' | 'briefDescription' | 'cardImageUrl' | 'category' | 'tags'>;
-  onClick: () => void; // Function to call when card is clicked
+  project: Pick<ProjectData, 'title' | 'briefDescription' | 'cardImageUrl' | 'category' | 'tags' | 'slug'>;
+  onClick: () => void; // Function to call when card is clicked (used if no slug)
 }
 
 const InterestSummaryCard: React.FC<InterestSummaryCardProps> = ({
   project,
   onClick,
 }) => {
-  const { title, briefDescription, cardImageUrl, category, tags } = project;
-  const styles = categoryStyles[category] || categoryStyles.software; // Default to software style
+  const { title, briefDescription, cardImageUrl, category, tags, slug } = project;
+  // Default to 'other' style if category doesn't match software/hardware
+  const styles = categoryStyles[category] || categoryStyles.other;
 
-  return (
-    <div
-      className={`rounded-lg overflow-hidden shadow-md bg-white cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-lg flex flex-col ${styles.border}`}
-      onClick={onClick}
-    >
+  // Define the common card content as a JSX fragment
+  const cardContent = (
+    <>
       {/* Image Section */}
       <div className="relative h-40 w-full flex-shrink-0">
         {cardImageUrl ? (
@@ -81,6 +81,29 @@ const InterestSummaryCard: React.FC<InterestSummaryCardProps> = ({
           </div>
         )}
       </div>
+    </>
+  );
+
+  // If a slug exists, wrap the card content in a Link to the project page
+  if (slug) {
+    return (
+      <Link
+        href={`/interests/${slug}`}
+        // Apply styles directly to the Link component
+        className={`block rounded-lg overflow-hidden shadow-md bg-white cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-lg flex flex-col ${styles.border}`}
+      >
+        {cardContent}
+      </Link>
+    );
+  }
+
+  // Otherwise, render the card as a div that triggers the modal onClick
+  return (
+    <div
+      className={`rounded-lg overflow-hidden shadow-md bg-white cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-lg flex flex-col ${styles.border}`}
+      onClick={onClick}
+    >
+      {cardContent}
     </div>
   );
 };

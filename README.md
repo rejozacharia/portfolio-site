@@ -7,7 +7,7 @@ This is a personal portfolio website built with [Next.js](https://nextjs.org), [
 *   **Homepage:** Introduces the site and provides navigation.
 *   **About:** Contains information about skills, experience, education, and certifications.
 *   **Portfolio:** Displays a collection of projects.
-*   **Interests:** Details personal interests and related projects/activities.
+*   **Interests / DIY Projects:** Details personal interests and showcases related DIY projects (see details below).
 *   **Blog:** Features articles written in MDX.
 *   **Contact:** Provides ways to get in touch.
 *   **Responsive Design:** Adapts to different screen sizes using Tailwind CSS.
@@ -48,6 +48,27 @@ portfolio-site/
 *   **`Dockerfile`**: Instructions for building the production Docker image.
 *   **`.github/workflows/`**: Contains GitHub Actions workflows for automation (e.g., CI/CD).
 *   **Configuration Files**: (`next.config.ts`, `tailwind.config.ts`, `tsconfig.json`, etc.) define settings for the framework, styling, and TypeScript.
+
+### Interests / DIY Projects Feature Details (Adding for additional clarity on usage)
+
+This feature allows showcasing personal interests and detailed DIY projects.
+
+*   **Structure:**
+   *   **Main Page (`src/app/interests/page.tsx`):** Displays a list of general interests and a grid of DIY project summary cards.
+   *   **Project Data (`src/data/projects.ts`):** An array defining the metadata for each DIY project (title, description, tags, image URLs, optional `slug`). The `ProjectData` interface defines the structure.
+   *   **Detailed Content (`src/content/interests/`):** For projects requiring long write-ups, corresponding `.mdx` files (e.g., `home-nas-server.mdx`) are stored here. The filename (without extension) must match the `slug` defined in `projects.ts`.
+   *   **Dynamic Project Pages (`src/app/interests/[slug]/page.tsx`):** Automatically generates a page for each project that has a `slug` defined in `projects.ts`. It fetches and renders the content from the corresponding `.mdx` file in `src/content/interests/`.
+   *   **UI Components (`src/components/`):**
+       *   `InterestSummaryCard.tsx`: Displays the brief summary card on the main interests page. If the project has a `slug`, it links to the dynamic project page; otherwise, it triggers the modal.
+       *   `InterestDetailModal.tsx`: A modal dialog used to display details for projects *without* a `slug`.
+*   **Adding/Modifying Projects:**
+   1.  **Edit Metadata:** Modify the `projects` array in `src/data/projects.ts`. Add or update project objects following the `ProjectData` interface.
+   2.  **Add Images:** Place any associated images in the `public/images/` directory (or a subdirectory) and update the `cardImageUrl` and `imageUrls` in `projects.ts`.
+   3.  **(Optional) Add Detailed Write-up:**
+       *   If the project needs a detailed page, assign a unique `slug` property in its `projects.ts` entry.
+       *   Create a corresponding `.mdx` file in `src/content/interests/` (e.g., `src/content/interests/your-slug.mdx`). Write the content using Markdown/MDX.
+   4.  **(Optional) Use Modal:** If the project details are brief, simply omit the `slug` property in `projects.ts`. Clicking the summary card will then open the `InterestDetailModal` using the data provided in `projects.ts`.
+*   **General Interests:** The list of general interests is hardcoded directly within `src/app/interests/page.tsx`. Edit the `ul` element in that file to update the list.
 
 ## Build Process (Docker)
 

@@ -1,22 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-// import InterestProjectCard from './InterestProjectCard'; // No longer directly using this
-
-// Define the structure for project data, including multiple images
-export interface ProjectData {
-  id: string; // Unique identifier
-  title: string;
-  briefDescription: string; // For the summary card
-  description: string; // Full description for modal
-  category: 'software' | 'hardware' | 'both'; // Added category
-  tags: string[]; // Added tags array
-  explanation?: string;
-  features?: string[];
-  imageUrls?: string[]; // Array of image paths for modal gallery/display
-  githubUrl?: string;
-  cardImageUrl?: string; // Optional specific image for the summary card
-}
+import { ProjectData } from '@/data/projects'; // Import the centralized data type
 
 // Define category colors/styles for the modal
 const categoryModalStyles = {
@@ -30,10 +15,10 @@ const categoryModalStyles = {
     text: 'text-green-800',
     label: 'Hardware Project',
   },
-  both: {
-    bg: 'bg-purple-100',
-    text: 'text-purple-800',
-    label: 'Hardware & Software Project',
+  other: { // Changed 'both' to 'other' and updated style/label
+    bg: 'bg-gray-100',
+    text: 'text-gray-800',
+    label: 'Project', // Generic label for 'other'
   },
 };
 
@@ -41,13 +26,14 @@ const categoryModalStyles = {
 interface InterestDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
-  project: ProjectData | null; // Pass the full project data
+  project: ProjectData | null; // Uses the imported ProjectData type
 }
 
 const InterestDetailModal: React.FC<InterestDetailModalProps> = ({ isOpen, onClose, project }) => {
   if (!project) return null; // Don't render if no project is selected
 
-  const styles = categoryModalStyles[project.category] || categoryModalStyles.software;
+  // Default to 'other' style if category doesn't match software/hardware
+  const styles = categoryModalStyles[project.category] || categoryModalStyles.other;
 
   return (
     <AnimatePresence>

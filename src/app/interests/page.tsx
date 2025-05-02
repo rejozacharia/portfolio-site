@@ -2,54 +2,8 @@
 
 import React, { useState } from 'react';
 import InterestSummaryCard from '@/components/InterestSummaryCard';
-import InterestDetailModal, { ProjectData } from '@/components/InterestDetailModal'; // Import modal and data type
-
-// Define project data array
-const projects: ProjectData[] = [
-  {
-    id: 'ebook-abridger',
-    title: "Ebook Abridger",
-    briefDescription: "AI-powered tool to create summarized versions of EPUB ebooks.",
-    category: 'software', // Correctly placed category
-    tags: ['Python', 'AI/LLM', 'LangChain', 'CLI', 'GUI', 'EPUB'], // Correctly placed tags
-    description: "A Python application to generate abridged versions of EPUB ebooks using Large Language Models (LLMs). It preserves chapter structure, narrative flow, and key elements while reducing length based on user settings.",
-    explanation: "The application reads an EPUB file, then uses AI (specifically, Large Language Models via LangChain) to summarize each chapter individually. It automatically detects if the book is fiction or non-fiction to adjust the summarization style. Short chapters can be skipped. Finally, it combines these summaries into a new, shorter EPUB file, preserving the original's metadata.",
-    features: [
-      "EPUB Input/Output (preserving metadata)",
-      "AI-Powered Summarization (chapter-by-chapter + overall)",
-      "Adjustable Summary Length", // Added this feature back
-      "Genre Auto-detection for better summaries",
-      "Option to Skip Short Chapters",
-      "Error Reporting for failed chapters",
-      "Cost Estimation for API usage",
-      "Command-Line Interface (CLI)",
-      "Graphical User Interface (GUI)",
-      "Supports multiple LLM providers (Gemini, Ollama, OpenRouter)",
-    ],
-    githubUrl: "https://github.com/rejozacharia/ebook-abridger",
-    cardImageUrl: "/images/DIY/ebook-abridger/ebook-abridger-gui.png", // Image for the summary card
-    imageUrls: [ // Images for the modal detail view
-      "/images/DIY/ebook-abridger/ebook-abridger-gui.png",
-      "/images/DIY/ebook-abridger/ebook-abridger-complete.png",
-      // Add more image paths here if needed
-    ],
-  },
-  // --- Add more project objects here ---
-  // Example placeholder:
-  // {
-  //   id: 'another-project',
-  //   title: "Another Cool Project",
-  //   briefDescription: "Brief description for the card.",
-  //   category: 'hardware',
-  //   tags: ['Raspberry Pi', 'Sensors', 'IoT'],
-  //   description: "Full description for the modal.",
-  //   explanation: "How this other project works.",
-  //   features: ["Feature A", "Feature B"],
-  //   githubUrl: "https://github.com/your-username/another-project",
-  //   cardImageUrl: "/images/another-project-preview.png",
-  //   imageUrls: ["/images/another-project-1.png", "/images/another-project-2.png"]
-  // },
-];
+import InterestDetailModal from '@/components/InterestDetailModal'; // Import modal component
+import { projects, ProjectData } from '@/data/projects'; // Import data and type from the new file
 
 
 const InterestsPage = () => {
@@ -67,10 +21,37 @@ const InterestsPage = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 bg-gray-50 min-h-screen">
-      <h1 className="text-4xl md:text-5xl font-bold mb-10 text-center text-gray-800">
-        DIY Projects & Interests
-      </h1>
+    <div className="container mx-auto px-4 pt-6 pb-12 bg-gray-50 min-h-screen"> {/* Reduced top padding from py-12 to pt-6 */}
+      {/* General Interests Section - Removed H1 and restyled */}
+      <section className="mb-4 mx-auto pt-4 pb-2 px-6"> {/* Reduced bottom margin to mb-4, reduced bottom padding to pb-2 */}
+        {/* Re-added H2 "General Interests" */}
+        <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">General Interests</h2>
+        <hr className="my-6 border-gray-300" /> {/* Divider */}
+        <ul className="list-none space-y-2 text-gray-700"> {/* Using checkmarks */}
+          <li className="flex items-start">
+            <span className="mr-2 text-xl">🛠️</span> {/* DIY Icon */}
+            <span><span className="font-medium text-gray-800">DIY Tinkerer:</span> From speaker builds to wrangling my home server (check out the projects!).</span>
+          </li>
+          <li className="flex items-start">
+            <span className="mr-2 text-xl">📚</span> {/* Reading Icon */}
+            <span>Attempting to bend my brain around theoretical physics & advanced math (results may vary!).</span>
+          </li>
+           <li className="flex items-start">
+            <span className="mr-2 text-xl">🏎️</span> {/* Racing Icon */}
+            <span>Need for Speed: Catching F1 races and occasionally hitting the track myself.</span>
+          </li>
+           <li className="flex items-start">
+            <span className="mr-2 text-xl">⚽</span> {/* Sports Icon */}
+            <span>Football Fanatic: Mostly glued to the Premier League action.</span>
+          </li>
+        </ul>
+        <hr className="my-6 border-gray-300" /> {/* Divider */}
+      </section>
+
+      {/* DIY Projects Section Title */}
+      <h2 className="text-3xl font-bold mb-8 text-center text-gray-700">
+        DIY Projects Showcase
+      </h2>
 
       {/* Grid for Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
@@ -78,7 +59,8 @@ const InterestsPage = () => {
           <InterestSummaryCard
             key={project.id}
             project={project} // Pass the whole project object
-            onClick={() => openModal(project)}
+            // Only open modal if project doesn't have a slug (handled inside InterestSummaryCard now)
+            onClick={() => !project.slug && openModal(project)}
           />
         ))}
          {/* Placeholder for adding more */}
@@ -90,12 +72,12 @@ const InterestsPage = () => {
        {/* Placeholder Text if needed */}
        {projects.length > 0 && (
          <div className="text-center mt-12 text-gray-500">
-           <p>Click on a card to see more details.</p>
+           <p>Click on a card to see more details or view the full project page.</p>
          </div>
        )}
 
 
-      {/* Detail Modal */}
+      {/* Detail Modal (still needed for projects without slugs) */}
       <InterestDetailModal
         isOpen={isModalOpen}
         onClose={closeModal}
