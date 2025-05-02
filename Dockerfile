@@ -14,7 +14,7 @@ COPY . .
 
 # Build the Next.js application for standalone output
 # Ensure NEXT_TELEMETRY_DISABLED is set to 1 to prevent build hangs
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 # Remove development dependencies after build (optional, as standalone handles this)
@@ -34,7 +34,7 @@ COPY --from=builder /app/.next/static ./.next/static
 EXPOSE 3000
 
 # Set environment variable for the port
-ENV PORT 3000
+ENV PORT=3000
 
 # Set the command to start the application using the standalone server
 CMD ["node", "server.js"]
