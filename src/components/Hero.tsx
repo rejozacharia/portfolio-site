@@ -1,7 +1,7 @@
 "use client"; // Make this a Client Component to use framer-motion
 
 import Image from 'next/image';
-import React from "react";
+import React, { useState } from "react"; // Import useState
 import { motion } from "framer-motion"; // Import motion
 
 // Define animation variants (copied from ClientSections for consistency)
@@ -18,6 +18,11 @@ const sectionVariants = {
 };
 
 const Hero: React.FC = () => {
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+
+  const openVideoModal = () => setIsVideoModalOpen(true);
+  const closeVideoModal = () => setIsVideoModalOpen(false);
+
   return (
     <motion.div // Wrap the section with motion.div
       initial="hidden"
@@ -46,17 +51,29 @@ const Hero: React.FC = () => {
           </p>
           {/* Buttons with blue accent */}
           <div className="flex justify-center gap-4 md:justify-start">
-            <a
-              href="#portfolio"
-              className="bg-primary hover:bg-primary/90 rounded px-4 py-2 font-bold text-white shadow transition duration-300"
+            {/* Video Intro Button */}
+            <button
+              onClick={openVideoModal}
+              className="bg-primary hover:bg-primary/90 rounded px-4 py-2 font-bold text-white shadow transition duration-300 cursor-pointer"
             >
-              View Portfolio
-            </a>
+              View Video Intro
+            </button>
+            {/* Contact Button */}
             <a
               href="#contact"
               className="rounded bg-gray-700 px-4 py-2 font-bold text-white shadow transition duration-300 hover:bg-gray-800"
             >
               Contact Me
+            </a>
+            {/* Resume Link */}
+            <a
+              href="/Rejo_Z_Mathew_Resume.pdf" // Placeholder path - ensure the resume file exists here
+              target="_blank" // Open in new tab
+              rel="noopener noreferrer" // Security best practice
+              className="rounded border border-primary px-4 py-2 font-bold text-primary shadow transition duration-300 hover:bg-primary/10"
+              download // Suggest download, though browser behavior might vary
+            >
+              Download Resume
             </a>
           </div>
         </div>
@@ -75,6 +92,39 @@ const Hero: React.FC = () => {
         </div>
       </div>
       </section>
+
+      {/* Video Modal */}
+      {isVideoModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4">
+          <div className="relative w-full max-w-3xl rounded-lg bg-white p-4 shadow-xl">
+            {/* Close Button */}
+            <button
+              onClick={closeVideoModal}
+              className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+              aria-label="Close video modal"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </button>
+
+            {/* Video Player Placeholder */}
+            <div className="aspect-video w-full">
+              {/* Replace with your actual video embed/player */}
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/-EwNPBuaHbU?autoplay=1" // Updated video URL
+                title="Video Player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+            <p className="mt-2 text-center text-sm text-gray-600">Rejo Z Mathew - Video Intro</p>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 };
