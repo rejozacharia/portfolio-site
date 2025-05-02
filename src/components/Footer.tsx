@@ -27,10 +27,26 @@ const Footer: React.FC = () => {
               />
             </svg>
           </a>
-          {/* Placeholder for GitHub icon/link */}
-          {/* <a href="#" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-900 transition duration-300" aria-label="GitHub Profile">
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">...</svg>
-          </a> */}
+          <a
+            href="https://github.com/rejozacharia"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary text-gray-500 transition duration-300"
+            aria-label="GitHub Profile"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12 0C5.37 0 0 5.373 0 12c0 5.302 3.438 9.8 8.205 11.385.6.113.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.082-.729.082-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.834 2.809 1.304 3.495.997.108-.776.418-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.933 0-1.31.47-2.38 1.236-3.22-.124-.303-.536-1.524.117-3.176 0 0 1.008-.322 3.3 1.23a11.52 11.52 0 0 1 3-.405c1.02.005 2.045.138 3 .405 2.29-1.552 3.297-1.23 3.297-1.23.654 1.653.243 2.874.12 3.176.77.84 1.235 1.91 1.235 3.22 0 4.61-2.807 5.625-5.48 5.922.43.37.81 1.102.81 2.222 0 1.606-.014 2.898-.014 3.293 0 .32.218.694.825.576C20.565 21.796 24 17.3 24 12c0-6.627-5.373-12-12-12z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </a>
         </div>
         {/* Adjusted copyright text color */}
         <p className="text-gray-600">

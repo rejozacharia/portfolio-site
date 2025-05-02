@@ -5,51 +5,61 @@ html {
 }
 
 :root {
-  --background: #f9fafb; /* Soft off-white */
-  --foreground: #2c3e50; /* Charcoal for text */
-  --header-bg: #2c3e50; /* Charcoal for header */
-  /* --accent: #F39C12; */ /* Accent color removed, use 'primary' from tailwind.config.ts */
+  /* Base palette */
+  --background: #f9fafb;        /* Soft off-white */
+  --foreground: #2c3e50;        /* Charcoal text */
+  --header-bg: #343b42;         /* Charcoal header background */
+  --header-bg-opaque: rgba(68, 87, 107, 0.473); /* Slightly translucent when scrolled */
+  --link-color: #ffffff;        /* White links by default */
+  --link-color-scrolled: #f9fafb; /* Light off-white for links on dark bg */
 }
 
+/* Tailwind theme override */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  /* Font variables removed, handled in layout.tsx */
 }
 
 body {
   background: var(--color-background);
   color: var(--color-foreground);
-  line-height: 1.6; /* Improved readability */
-  /* font-family will be set in layout.tsx */
+  line-height: 1.6;
 }
 
-/* Base Typography Styles */
-h1 {
-  @apply mb-6 text-4xl font-bold tracking-tight sm:text-5xl;
+/* Header overrides */
+header {
+  background-color: var(--header-bg);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+header.scrolled {
+  /* When you add the “scrolled” class (in Header.tsx), use the translucent version */
+  background-color: var(--header-bg-opaque);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-  @apply mb-5 text-3xl font-semibold tracking-tight sm:text-4xl;
+/* Override link colors globally in header nav */
+header a {
+  color: var(--link-color);
+  transition: color 0.2s ease;
+}
+header.scrolled a {
+  color: var(--link-color-scrolled);
 }
 
-h3 {
-  @apply mb-4 text-2xl font-semibold sm:text-3xl;
+/* Base Typography */
+h1 { @apply mb-6 text-4xl font-bold tracking-tight sm:text-5xl; }
+h2 { @apply mb-5 text-3xl font-semibold tracking-tight sm:text-4xl; }
+h3 { @apply mb-4 text-2xl font-semibold sm:text-3xl; }
+h4 { @apply mb-3 text-xl font-semibold sm:text-2xl; }
+h5 { @apply mb-2 text-lg font-semibold sm:text-xl; }
+h6 { @apply mb-2 text-base font-semibold sm:text-lg; }
+p  { @apply mb-4; }
+
+/* CTA button color */
+.btn-primary {
+  @apply bg-blue-900 text-white px-4 py-2 rounded transition-colors duration-200;
 }
 
-h4 {
-  @apply mb-3 text-xl font-semibold sm:text-2xl;
+.btn-primary:hover {
+  @apply bg-blue-600;
 }
-
-h5 {
-  @apply mb-2 text-lg font-semibold sm:text-xl;
-}
-
-h6 {
-  @apply mb-2 text-base font-semibold sm:text-lg;
-}
-
-p {
-  @apply mb-4; /* Add default bottom margin to paragraphs */
-}
-

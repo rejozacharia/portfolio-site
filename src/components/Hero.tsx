@@ -54,7 +54,7 @@ const Hero: React.FC = () => {
             {/* Video Intro Button */}
             <button
               onClick={openVideoModal}
-              className="bg-primary hover:bg-primary/90 rounded px-4 py-2 font-bold text-white shadow transition duration-300 cursor-pointer"
+              className="btn-primary rounded px-4 py-2 font-bold text-white shadow transition duration-300 cursor-pointer"
             >
               View Video Intro
             </button>

@@ -100,7 +100,7 @@ const Certifications: React.FC = () => {
         <div className="mt-16 text-center">
           <Link
             href="#contact"
-            className="bg-primary hover:bg-primary/90 inline-block rounded px-6 py-3 text-lg font-semibold text-white shadow transition duration-300"
+            className="btn-primary inline-block rounded px-6 py-3 text-lg font-semibold text-white shadow transition duration-300"
           >
             Get In Touch
           </Link>
