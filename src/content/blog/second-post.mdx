@@ -1,18 +1,203 @@
 ---
-title: "Another Post"
+title: "BI Layer Best Practices"
 date: "2025-05-02"
 description: "Exploring more features."
 ---
 
-# This is the second post
+---
+title: "BI Layer Best Practices"
+---
 
-Let's add some more content here.
+A solid Business Intelligence (BI) layer empowers everyone—from executive stakeholders to data-savvy analysts—to trust their numbers and move quickly. In this post, we’ll walk through what a BI layer is, how to build one in Tableau, and best practices around SQL, modeling, and server management. Ready? Let’s dive in.
 
-- Lists are easy
-- So are **bold** and *italic* text.
+## What is a BI Layer?
 
-```typescript
-interface User {
-  name: string;
-  id: number;
-}
+A BI layer is your team’s “single source of truth” for reporting and ad-hoc analysis. Think of it as the semantic overlay atop raw production data: it translates tables, joins, and cryptic keys into business language. In Tableau, this lives as a published data source—ready for anyone on your team to connect to a friendly set of dimensions, measures, and calculations.
+
+{/* image: conceptual-diagram-of-bi-layer */}
+
+Key benefits:
+
+1. **Consistency**: Every report, dashboard, and analyst references the same definitions.
+2. **Governance**: Security, row-level filters, and connection credentials are centrally managed.
+3. **Performance**: Optimized extracts and simplified SQL ensure snappy interactions.
+
+## How to Create a BI Layer
+
+### 1. Connecting to Data
+
+Fire up Tableau Desktop and choose your connector—Teradata, Snowflake, Amazon Redshift, or your warehouse of choice. Enter credentials once; Tableau will securely embed them for scheduled refreshes.
+
+{/* image: tableau-data-connection-screen */}
+
+**Pro tip:** Store your credentials in a vault or use OAuth where possible, so you’re not embedding raw passwords in your published data sources.
+
+### 2. Querying Data
+
+In the Data Source tab, click **New Custom SQL**, paste in your SELECT statement, and click **OK**. Decide whether you need a **Live** connection—always fresh but potentially slower—or an **Extract**, which gives you lightning-fast filtering at the cost of periodic refresh scheduling.
+
+```sql
+SELECT
+  cust_id,
+  order_date,
+  order_total
+FROM
+  sales.orders
+WHERE
+  order_date >= '2025-01-01'
+```
+
+### 3. Live vs. Extract
+
+- **Live**: Great for real-time dashboards; watch out for long‐running queries during peak hours.
+- **Extract**: Ideal for high-volume tables—just set a refresh schedule (hourly, daily, whatever suits your SLA).
+
+{/* image: live-vs-extract-comparison-chart */}
+
+### 4. Building the Layer
+
+Click **Sheet 1** and you arrive at your nascent BI layer. Here’s where you:
+
+- **Define Dimensions**: Customer, Product Category, Region.
+- **Define Measures**: Sales Amount (SUM), Order Count (COUNT).
+- **Rename fields**: Change `cust_id` to “Customer ID” for clarity.
+
+**Tip:** Create folders like “Customer Attributes,” “Time,” and “Sales Measures” to keep things organized.
+
+### 5. Publishing the BI Layer
+
+Go to **Server → Publish Data Source**. Select your Project (e.g., “Global BI Layers”) and name it `Sales_BI_Layer`. Choose **Embedded password** so scheduled jobs can refresh without a hitch.
+
+{/* image: publish-data-source-dialog */}
+
+### 6. Maintaining and Refreshing
+
+On Tableau Server, head to the **Data Sources** tab. From here you can:
+
+- Adjust extract schedules.
+- Kick off a manual refresh.
+- Review extract history and refresh failures.
+
+## SQL Code Best Practices
+
+A rock-solid BI layer starts with maintainable, performant SQL.
+
+### 1. Formatting & Comments
+
+- Use consistent indentation (two or four spaces).
+- Comment blocks (`/* … */`) at the top to explain the query’s purpose.
+- Inline comments (`-- …`) for tricky logic.
+
+```sql
+/*
+  Purpose: Extract daily sales by region for dashboarding
+  Author: Rejo Z Mathew
+  Last Updated: 2025-04-15
+*/
+SELECT
+  region,               -- Sales region (e.g. North America)
+  DATE(order_date) AS date,
+  SUM(order_total) AS total_sales
+FROM sales.orders
+GROUP BY region, DATE(order_date);
+```
+
+### 2. Keep SQL Simple
+
+Let Tableau handle window functions, complex date math, and secondary calculations wherever possible. Your base SELECT should aim for a single table or a well–documented staging view.
+
+### 3. Optimization
+
+- **Avoid SELECT ***—list only needed columns.
+- **Leverage indexes** in your warehouse.
+- **Use sandbox tables** to pre-aggregate or denormalize heavy joins outside of Tableau.
+
+## Dimensions, Measures, and Calculations Best Practices
+
+A clean semantic layer lets non-technical users build their own insights confidently.
+
+### 1. Folder Grouping & Naming
+
+- **Dimensions**: Categorical data (Customer, Product).
+- **Measures**: Quantitative data (Revenue, Count).
+
+Group by theme: e.g., “Time,” “Customer Metrics,” “Indicators.”
+
+### 2. Measures → Dimensions
+
+Sometimes numeric fields (like `Order Count`) need to slice dashboards. Right-click a measure and **Convert to Dimension**.
+
+### 3. Indicators
+
+Binary flags (1/0) become “Indicators” so users can easily count (e.g., `Is_Promotional_Order`). Place them in an “Indicators” folder.
+
+### 4. Calculated Measures
+
+Build measures in this layer so:
+
+- Lineage is clear.
+- Downstream users see business logic directly.
+
+Start by defining indicators, then layer on aggregations:
+
+```tableau
+// Indicator
+[Is High Value] = IF [Order Total] > 1000 THEN 1 ELSE 0 END
+
+// Measure
+High Value Order Count = SUM([Is High Value])
+```
+
+### 5. Formatting
+
+- Currency → `$#,##0.00`
+- Counts → `#,##0`
+- Ratios/Percentages → `0.0%`
+
+## Tableau Server Best Practices
+
+A vibrant BI environment needs governance, performance tuning, and clear permissions.
+
+### 1. Server Architecture
+
+At Discover, we run two servers:
+
+- **On-Prem**: Sensitive HR and finance data.
+- **Cloud**: Marketing and product analytics.
+
+Each server hosts multiple **Sites** for different teams.
+
+{/* image: tableau-server-architecture */}
+
+### 2. Managing Data Sources
+
+Under **Data Sources**, you can:
+
+- Set **Permissions** (who can download, connect, or publish).
+- Edit **Connection Properties** (point to failover clusters).
+- Download the `.tds` or `.hyper` file for local testing.
+
+### 3. Extract Refresh Schedules
+
+Choose between:
+
+- **Full**: Overwrite all data—use for small tables.
+- **Incremental**: Append new records—great for high-volume streams.
+
+Monitor the **Extract Refresh History** page for failures and tune priorities or lanes as needed.
+
+### 4. Permissions Model
+
+- **Projects**: Project Leader, Publisher, Viewer.
+- **Workbooks**: Viewer, Interactor, Editor.
+- **Data Sources**: Connector, Editor.
+
+Use groups (e.g., “Sales_Analysts”) to simplify assignments and reduce security overhead.
+
+---
+
+**Wrapping Up**
+
+Building a robust BI layer in Tableau takes discipline—from writing clean SQL to thoughtful modeling and vigilant server governance. But once in place, your organization gains a trusted, self-service data environment where insights fly off the charts and teams move at data-driven speed.
+
+Happy dashboarding!

@@ -1,17 +1,138 @@
 ---
-title: "My First Blog Post"
+title: "Consumer Identity Resolution: Enhancing Customer Tracking and Engagement"
 date: "2025-05-01"
 description: "This is the description for the first post."
 ---
 
-# Welcome to my first post!
+---
+title: "Consumer Identity Resolution: Enhancing Customer Tracking and Engagement"
+---
 
-This is the content of my very first blog post using MDX.
-It's pretty cool!
+<!-- Placeholder for Hero Image -->
+<img src="./images/hero-placeholder.png" alt="Hero Image Placeholder" />
 
-```jsx
-function Greet() {
-  return <h1>Hello, MDX!</h1>;
-}
+# Introduction
 
-<Greet />
+The Consumer Identity Resolution initiative aims to enable the tracking of consumer journeys by creating an Analytical Identifier that remains consistent across different relationships, lifecycle events, and products. This identifier will be tied to all consumer interaction events, aiding in the development of a consumer graph.
+
+<!-- Placeholder for Consumer Journey Graph Image -->
+<img src="./images/consumer-journey-graph.png" alt="Consumer Journey Graph Placeholder" />
+
+# Scope
+
+The initial phase of the project focuses on customers, applicants, and direct mail solicited prospects. This will be extended to authorized buyers and identity theft protection customers in Phase 2. Digital prospect resolution will be addressed in the future, with the data model and design being flexible to accommodate future needs.
+
+<!-- Placeholder for Scope Diagram -->
+<img src="./images/scope-diagram.png" alt="Scope Diagram Placeholder" />
+
+# Approach
+
+ACXIOM was chosen as the vendor to help resolve consumer identities. While ACXIOM drives consumer record creation, internal review processes will handle exceptions and conflicting scenarios. This is a batch solution that runs daily or weekly, depending on file frequency.
+
+<!-- Placeholder for Vendor Integration Flow Image -->
+<img src="./images/vendor-integration-flow.png" alt="Vendor Integration Flow Placeholder" />
+
+# Current State
+
+Currently, there are no individual identifiers associated with applicants and prospects, making it impossible to create a consumer graph.
+
+# Future State
+
+Once a consumer identity is established, all consumer activities can be tracked from solicitation to the end of the relationship across all products. This will provide insights into user behavior and assist in effective marketing and servicing strategies.
+
+<!-- Placeholder for Future State Workflow Image -->
+<img src="./images/future-state-workflow.png" alt="Future State Workflow Placeholder" />
+
+# Data Exchange Process
+
+## High-Level Data Exchange
+
+The data exchange between Discover and ACXIOM involves several processes, including application matching, prospect matching, and customer matching.
+
+<!-- Placeholder for Data Exchange Overview Image -->
+<img src="./images/data-exchange-overview.png" alt="Data Exchange Overview Placeholder" />
+
+## Application Matching Process
+
+1. **Applicant to Customer Pre-Matching:** Links applicants to customers using Discover IDs and PII verification.
+2. **Application Customer Lookup:** Identifies if an applicant is an existing Discover customer.
+3. **Application Consolidated PDB Match:** Identifies if an applicant is a Discover direct mail prospect or exists in ACXIOM's prospect knowledge base.
+
+## Prospect Matching Process
+
+1. **Prospect Identity Match:** Associates an identifier with direct mail prospects.
+2. **PDB Shift Communication:** Communicates any shift in identifiers identified by ACXIOM.
+
+## Customer Matching Process
+
+1. **Portfolio Match:** Ties a PDB identifier to all current Discover customers.
+2. **Customer PDB Match:** A weekly process to associate PDB identifiers with new customer relationships.
+
+# Egress and Ingress Processes
+
+## Egress Process (Discover to ACXIOM)
+
+Discover sends a file of applicants to ACXIOM daily for individual/household ID append. Restricted data elements are detokenized, and files are PGP encrypted before being pushed to ACXIOM.
+
+## Ingress Process (ACXIOM to Discover)
+
+ACXIOM pushes files and control files to Discover daily and weekly. Files are ingested, tokenized, and loaded to Snowflake via Cloud Data Fabric.
+
+<!-- Placeholder for Egress/Ingress Flow Image -->
+<img src="./images/egress-ingress-flow.png" alt="Egress and Ingress Flow Placeholder" />
+
+# Detailed Data Flow Design
+
+The consumer ID generation process is a weekly process executed after all expected files for the week are delivered. Each record and its corresponding individual identifiers are compared with the current state in Discover's system to determine actions.
+
+# Consumer Action Consolidation
+
+Each record received as part of the consumer identity determination process is run through logic to determine the necessary action. Actions are aggregated at the individual ID level to identify all actions to be executed.
+
+# Different Actions
+
+There are seven potential actions based on the record's relationship and individual ID:
+
+- **New Consumer (NEW):** Assigned if a record contains an individual ID not existing in the system.
+- **Existing Consumer with a New Relationship (NEW-NOT-NEW):** Assigned if a record contains an individual ID existing in the system but representing a new relationship.
+- **Consumer Split (SPLIT):** Assigned if a record's individual ID has shifted.
+- **Consumer Merge (MERGE):** Assigned if a record's individual ID has shifted to an existing ID.
+- **Consumer Split Merge (SPLIT-MERGE):** Assigned if a record's individual ID has shifted and needs to be merged with a different record.
+- **Consumer Reassignment (SHIFT):** Assigned if a record's individual ID has shifted to a new ID.
+- **Consumer Reassignment (SHIFT-SPLIT):** An edge case of the SHIFT scenario.
+
+<!-- Placeholder for Actions Decision Tree Image -->
+<img src="./images/actions-decision-tree.png" alt="Actions Decision Tree Placeholder" />
+
+# Prioritization of Actions
+
+Actions are prioritized to ensure the correct action is executed on the individual ID. Actions related to consumer record creation or reassignment cannot coexist with actions not tied to creation/reassignment.
+
+# Consumer Relationship Cross-Reference Management
+
+The consumer relationship cross-reference management involves detailed data flow design and table definitions to ensure accurate tracking and management of consumer relationships.
+
+# Testing Strategy
+
+## Data Exchange Validation
+
+Data exchange validation includes file layout validation, count validation, and decision validation to ensure the correct decisions are made on Perm IDs based on PDBs assigned.
+
+## Process Monitoring
+
+Approximately 50 Snowflake dashboards are monitored weekly to ensure the Consumer Identity Process runs as expected.
+
+## Data Exchange Patterns for Testing in Dev
+
+Data is exchanged between Discover and ACXIOM to test rule execution in the Dev region. Data is sent to ACXIOM in the PROD space with true PII for applicants and returned to Discover in the Dev region with masked PII.
+
+## Application Data Exchange Process
+
+The application data exchange process involves sending applicant data daily and receiving matched data from ACXIOM.
+
+<!-- Placeholder for Testing Strategy Image -->
+<img src="./images/testing-strategy.png" alt="Testing Strategy Placeholder" />
+
+# Conclusion
+
+The Consumer Identity Resolution initiative is a comprehensive effort to enhance customer tracking and engagement by creating a consistent Analytical Identifier. This identifier will provide valuable insights into consumer behavior, aiding in effective marketing and servicing strategies.

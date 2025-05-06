@@ -70,6 +70,32 @@ This feature allows showcasing personal interests and detailed DIY projects.
    4.  **(Optional) Use Modal:** If the project details are brief, simply omit the `slug` property in `projects.ts`. Clicking the summary card will then open the `InterestDetailModal` using the data provided in `projects.ts`.
 *   **General Interests:** The list of general interests is hardcoded directly within `src/app/interests/page.tsx`. Edit the `ul` element in that file to update the list.
 
+### Blog Feature Details
+
+The blog allows for writing and displaying articles using MDX.
+
+*   **Structure:**
+    *   **Content Files (`src/content/blog/`):** Each blog post is an individual `.mdx` file within this directory.
+    *   **Frontmatter:** Each `.mdx` file *must* start with YAML frontmatter containing at least the following fields:
+        ```yaml
+        ---
+        title: "Your Post Title"
+        date: "YYYY-MM-DD" # e.g., 2024-05-05
+        description: "A short summary of the post."
+        ---
+        ```
+    *   **Ordering:** Posts are displayed on the main blog page (`/blog`) sorted by the `date` field in the frontmatter, with the most recent posts appearing first. The date format should be `YYYY-MM-DD`.
+    *   **Blog List Page (`src/app/blog/page.tsx`):** Reads all `.mdx` files, extracts frontmatter, sorts them by date, and displays a list with links.
+    *   **Individual Post Page (`src/app/blog/[slug]/page.tsx`):** Dynamically renders the content of a specific `.mdx` file based on the URL slug (which is derived from the filename).
+
+*   **Adding a New Post:**
+    1.  Create a new file in the `src/content/blog/` directory with a `.mdx` extension (e.g., `my-new-post.mdx`). The filename (without the extension) will become the URL slug.
+    2.  Add the required frontmatter ( `title`, `date`, `description`) at the top of the file. Ensure the `date` is correct for sorting.
+    3.  Write the main content of your post below the frontmatter using Markdown and/or JSX (MDX).
+
+*   **Editing a Post:**
+    1.  Open the corresponding `.mdx` file in `src/content/blog/`.
+    2.  Modify the frontmatter or the main content as needed. Save the file. Changes will be reflected after the site rebuilds (or immediately in development mode).
 ## Build Process (Docker)
 
 The application is containerized using Docker. The `Dockerfile` defines a multi-stage build process:
