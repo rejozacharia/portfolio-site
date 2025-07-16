@@ -1,35 +1,31 @@
 ---
-title: "Consumer Identity Resolution: Enhancing Customer Tracking and Engagement"
-date: "2025-05-01"
+title: "Consumer Identity Resolution: Enhancing Customer Tracking and Engagements"
+date: "2025-01-01"
 description: "This is the description for the first post."
 ---
 
----
-title: "Consumer Identity Resolution: Enhancing Customer Tracking and Engagement"
----
-
-<!-- Placeholder for Hero Image -->
+{/* Placeholder for Hero Image */}
 <img src="./images/hero-placeholder.png" alt="Hero Image Placeholder" />
 
 # Introduction
 
 The Consumer Identity Resolution initiative aims to enable the tracking of consumer journeys by creating an Analytical Identifier that remains consistent across different relationships, lifecycle events, and products. This identifier will be tied to all consumer interaction events, aiding in the development of a consumer graph.
 
-<!-- Placeholder for Consumer Journey Graph Image -->
+{/* Placeholder for Consumer Journey Graph Image */}
 <img src="./images/consumer-journey-graph.png" alt="Consumer Journey Graph Placeholder" />
 
 # Scope
 
 The initial phase of the project focuses on customers, applicants, and direct mail solicited prospects. This will be extended to authorized buyers and identity theft protection customers in Phase 2. Digital prospect resolution will be addressed in the future, with the data model and design being flexible to accommodate future needs.
 
-<!-- Placeholder for Scope Diagram -->
+{/* Placeholder for Scope Diagram */}
 <img src="./images/scope-diagram.png" alt="Scope Diagram Placeholder" />
 
 # Approach
 
 ACXIOM was chosen as the vendor to help resolve consumer identities. While ACXIOM drives consumer record creation, internal review processes will handle exceptions and conflicting scenarios. This is a batch solution that runs daily or weekly, depending on file frequency.
 
-<!-- Placeholder for Vendor Integration Flow Image -->
+{/* Placeholder for Vendor Integration Flow Image */}
 <img src="./images/vendor-integration-flow.png" alt="Vendor Integration Flow Placeholder" />
 
 # Current State
@@ -40,7 +36,7 @@ Currently, there are no individual identifiers associated with applicants and pr
 
 Once a consumer identity is established, all consumer activities can be tracked from solicitation to the end of the relationship across all products. This will provide insights into user behavior and assist in effective marketing and servicing strategies.
 
-<!-- Placeholder for Future State Workflow Image -->
+{/* Placeholder for Future State Workflow Image */}
 <img src="./images/future-state-workflow.png" alt="Future State Workflow Placeholder" />
 
 # Data Exchange Process
@@ -49,7 +45,7 @@ Once a consumer identity is established, all consumer activities can be tracked 
 
 The data exchange between Discover and ACXIOM involves several processes, including application matching, prospect matching, and customer matching.
 
-<!-- Placeholder for Data Exchange Overview Image -->
+{/* Placeholder for Data Exchange Overview Image */}
 <img src="./images/data-exchange-overview.png" alt="Data Exchange Overview Placeholder" />
 
 ## Application Matching Process
@@ -78,7 +74,7 @@ Discover sends a file of applicants to ACXIOM daily for individual/household ID 
 
 ACXIOM pushes files and control files to Discover daily and weekly. Files are ingested, tokenized, and loaded to Snowflake via Cloud Data Fabric.
 
-<!-- Placeholder for Egress/Ingress Flow Image -->
+{/* Placeholder for Egress/Ingress Flow Image */}
 <img src="./images/egress-ingress-flow.png" alt="Egress and Ingress Flow Placeholder" />
 
 # Detailed Data Flow Design
@@ -101,7 +97,7 @@ There are seven potential actions based on the record's relationship and individ
 - **Consumer Reassignment (SHIFT):** Assigned if a record's individual ID has shifted to a new ID.
 - **Consumer Reassignment (SHIFT-SPLIT):** An edge case of the SHIFT scenario.
 
-<!-- Placeholder for Actions Decision Tree Image -->
+{/* Placeholder for Actions Decision Tree Image */}
 <img src="./images/actions-decision-tree.png" alt="Actions Decision Tree Placeholder" />
 
 # Prioritization of Actions
@@ -130,7 +126,7 @@ Data is exchanged between Discover and ACXIOM to test rule execution in the Dev 
 
 The application data exchange process involves sending applicant data daily and receiving matched data from ACXIOM.
 
-<!-- Placeholder for Testing Strategy Image -->
+{/* Placeholder for Testing Strategy Image */}
 <img src="./images/testing-strategy.png" alt="Testing Strategy Placeholder" />
 
 # Conclusion

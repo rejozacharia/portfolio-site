@@ -57,7 +57,7 @@ export const projects: ProjectData[] = [
     category: 'hardware',
     tags: ['NAS', 'Unraid', 'Docker', 'VM', 'Hardware', 'Networking', 'Self-Hosting'],
     description: "A comprehensive walkthrough of selecting hardware, configuring Unraid OS, setting up Docker containers (Plex, Nextcloud), managing VMs, and integrating home automation for a powerful home server.", // Slightly longer description for modal/preview if needed
-    cardImageUrl: "/images/DIY/nas/nas-placeholder-card.png", // Placeholder - replace with actual image path
+    cardImageUrl: "/images/DIY/home-nas-server/unraid.png", // Placeholder - replace with actual image path
     imageUrls: [ // Placeholder images for modal/page gallery
         "/images/DIY/nas/nas-placeholder-1.png",
         "/images/DIY/nas/nas-placeholder-2.png",

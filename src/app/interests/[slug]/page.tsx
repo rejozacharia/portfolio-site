@@ -54,8 +54,8 @@ const ProjectPage = async ({ params }: ProjectPageProps) => {
   return (
     <div className="container mx-auto px-4 py-12 bg-white min-h-screen">
       <article className="max-w-4xl mx-auto">
-        <header className="mb-8 border-b pb-6">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
+        <header className="mb-8 border-b pb-6 bg-gray-800 rounded-lg overflow-hidden p-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">
             {project.title}
           </h1>
           <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">

@@ -26,7 +26,7 @@ const highlightedProjects: Project[] = [
     summary:
       "Collaborated with various teams to implement key MarTech/CDP solutions (e.g., Neustar, Segment), significantly improving enterprise marketing activation, customer journey orchestration, and personalization capabilities.",
     tech: ["MarTech", "CDP", "Neustar", "Segment", "Customer Data Management"],
-    // imageUrl: "/images/placeholder-martech.png" // Example placeholder path
+    //imageUrl: "/images/placeholder-martech.png" // Example placeholder path
   },
 ];
 
@@ -104,12 +104,12 @@ const Portfolio: React.FC = () => {
                   </div>
                 )}
                 {/* Blue link */}
-                <a
-                  href="#"
+                <Link
+                  href="/blog"
                   className="text-primary text-sm font-medium hover:underline"
                 >
-                  Learn More (Details coming soon)
-                </a>
+                  Learn More (go to Blog)
+                </Link>
               </div>
             </motion.div>
           ))}
