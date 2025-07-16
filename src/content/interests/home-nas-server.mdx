@@ -3,7 +3,8 @@
 ### CPU & Motherboard
 For a NAS that also runs VMs and Docker, a multi-core, low-power processor is ideal. Many hobbyist builds opt for an Intel Core i3-12100T (~35 W TDP) paired with an ATX motherboard offering at least eight SATA ports or an LSI HBA for expansion.
 
-![Placeholder: CPU and Motherboard](path/to/hardware-cpu_mobo.png)
+
+![Components](/images/DIY/home-nas-server/components.jpg)
 
 ### Memory
 While Unraid doesn’t strictly require ECC RAM, running VMs and containers benefits from ample memory. A baseline of 16 GB DDR4 is common, with plans to expand to 32 GB if you host multiple Ubuntu VMs or memory-intensive services.
@@ -15,7 +16,7 @@ Parity Drive: At least one parity disk—ideally the largest size in your array�
 
 Cache Pool: A pair of NVMe SSDs configured in RAID 1 serves as the cache pool, accelerating writes and supporting Docker image storage.
 
-![Placeholder: Drive Bay Layout](path/to/drive-bay_layout.png)
+![Drive Layout](/images/DIY/home-nas-server/drive-layout.png)
 
 ### Power Supply & Cooling
 A high-efficiency (80 Plus Gold) PSU around 650–750 W (e.g., Corsair RM750x) provides ample headroom. Ensure good case airflow with at least two intake and one exhaust fan; dust filters help keep drives healthy.
@@ -34,7 +35,7 @@ Configure the cache pool in Settings → Cache Devices, pairing your SSDs in mir
 
 Enable user shares, choosing “Prefer” or “Only” to store certain shares on the cache for performance.
 
-![Placeholder: Unraid Dashboard Screenshot](path/to/unraid_dashboard.png)
+![Unraid Dashboard Screenshot](/images/DIY/home-nas-server/unraid-dashboard.png)
 
 ### Docker Containers
 Unraid’s built-in Docker support lets you deploy containers via the Community Applications plugin. Common services:
@@ -59,7 +60,7 @@ Ubuntu VMs can run specialized workloads like self-hosted code repositories, CI 
 ### Home Assistant Integration
 Run Home Assistant in Docker or VM to manage your Ecobee thermostat and other IoT devices. Store state databases on the cache pool and backup configurations regularly to a Nextcloud share.
 
-![Placeholder: Home Assistant UI](path/to/home_assistant_ui.png)
+![Placeholder: Home Assistant UI](/images/DIY/home-nas-server/home-assistant.png)
 
 ### Secure Remote Access & Web Hosting
 Reverse Proxy: Use Nginx Proxy Manager in Docker to route external traffic to services (Nextcloud, WordPress, etc.) behind dynamic DNS.

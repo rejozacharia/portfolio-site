@@ -52,12 +52,12 @@ const Hero: React.FC = () => {
           {/* Buttons with blue accent */}
           <div className="flex justify-center gap-4 md:justify-start">
             {/* Video Intro Button */}
-            <button
+            {/* <button
               onClick={openVideoModal}
               className="btn-primary rounded px-4 py-2 font-bold text-white shadow transition duration-300 cursor-pointer"
             >
               View Video Intro
-            </button>
+            </button> */}
             {/* Contact Button */}
             <a
               href="#contact"
