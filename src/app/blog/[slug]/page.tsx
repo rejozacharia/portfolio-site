@@ -3,6 +3,7 @@ import path from 'path';
 import { notFound } from 'next/navigation';
 import matter from 'gray-matter';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import { mdxComponents } from '@/components/MdxComponents';
 import readingTime from 'reading-time';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -83,22 +84,28 @@ export default async function BlogPostPage({
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 md:px-6 lg:px-8 max-w-3xl">
-      <Link
-        href="/blog"
-        className="text-blue-600 dark:text-blue-400 hover:underline mb-6 inline-block"
-      >
-        &larr; Back to Blog
-      </Link>
+    <div className="container mx-auto px-4 py-12 bg-white min-h-screen">
+      <article className="max-w-4xl mx-auto">
+        <header className="mb-8 border-b pb-6 rounded-lg overflow-hidden p-6">
+          <Link
+            href="/blog"
+            className="text-blue-600 dark:text-blue-400 hover:underline mb-6 inline-block"
+          >
+            &larr; Back to Blog
+          </Link>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">
+            {post.frontmatter.title}
+          </h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Published on{' '}
+            {new Date(post.frontmatter.date).toLocaleDateString()} |{' '}
+            {post.readingTime}
+          </p>
+        </header>
 
-      <article className="prose dark:prose-invert max-w-none">
-        <h1>{post.frontmatter.title}</h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-          Published on{' '}
-          {new Date(post.frontmatter.date).toLocaleDateString()} |{' '}
-          {post.readingTime}
-        </p>
-        <MDXRemote source={post.content} />
+        <div className="prose prose-lg max-w-none">
+          <MDXRemote source={post.content} components={mdxComponents} />
+        </div>
       </article>
     </div>
   );

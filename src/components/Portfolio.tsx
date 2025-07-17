@@ -19,14 +19,14 @@ const highlightedProjects: Project[] = [
     summary:
       "Build semantic self-service BI layers for KPI standardization, speed-of-delivery and democratizing analytics and reporting",
     tech: ["Self-Service BI", "Tableau", "AtScale", "KPI standardization"],
-    // imageUrl: "/images/placeholder-control.png" // Example placeholder path
+    imageUrl: "/images/blog/semantic/semantic.jpg" // Example placeholder path
   },
   {
     title: "Enterprise Identity Graph / Customer360",
     summary:
       " Neo4j-powered consumer identity graphs enable Discover to identify, unify, and engage both prospects and existing customers across multiple products and channels.",
     tech: ["Graph DB","Neo4j", "Customer360", "Identity Resolution", "Omni-Channel Tracking", "Personalization", "Next Best Action"],
-    //imageUrl: "/images/placeholder-martech.png" // Example placeholder path
+    imageUrl: "/images/blog/identity/identity-hero.jpg" // Example placeholder path
   },
 ];
 

@@ -1,134 +1,73 @@
 ---
-title: "Consumer Identity Resolution: Enhancing Customer Tracking and Engagements"
-date: "2025-01-01"
-description: "This is the description for the first post."
+title: "Connecting the dots : Architecting Identity Graph for activating Financial Journeys"
+date: "2025-05-01"
+description: "Creating Identity Graphs on graph databases (such as Neo4j) opens next-gen usecases around marketing & servicing"
 ---
 
 {/* Placeholder for Hero Image */}
-<img src="./images/hero-placeholder.png" alt="Hero Image Placeholder" />
+
 
 # Introduction
 
-The Consumer Identity Resolution initiative aims to enable the tracking of consumer journeys by creating an Analytical Identifier that remains consistent across different relationships, lifecycle events, and products. This identifier will be tied to all consumer interaction events, aiding in the development of a consumer graph.
-
+The graph database solution lets us associate multi-dimensional data such as customer email, phone, physical address, product and account relationships, as well as interaction events like support calls, chats, emails and clickstream views, cutting across layers of multiple products and their siloed systems. In doing so, it enables us to visualize customer behavior better and identify and persist new associations that existing data systems find difficult to capture today.
+<img src="/images/blog/identity/identity-hero.jpg" alt="Hero Image Placeholder" />
+By connecting fragmented data into cohesive journey maps, these graphs will help us unlock household insights, optimize lifecycle engagement, drive acquisition and re-engagement strategies and deepen consumer relationships at scale. In the following slides, we’ll expound on why graphs suited our particular context, and how we arrived at our setup.
 {/* Placeholder for Consumer Journey Graph Image */}
-<img src="./images/consumer-journey-graph.png" alt="Consumer Journey Graph Placeholder" />
 
-# Scope
+# Why Graph is the solution
 
-The initial phase of the project focuses on customers, applicants, and direct mail solicited prospects. This will be extended to authorized buyers and identity theft protection customers in Phase 2. Digital prospect resolution will be addressed in the future, with the data model and design being flexible to accommodate future needs.
+A typical customer journey we navigate is intricate and multi-dimensional( as shown below), presenting numerous points where leads can disengage and we can re-establish engagement. This complexity is further compounded by the existence of various business lines and their corresponding products.
 
-{/* Placeholder for Scope Diagram */}
-<img src="./images/scope-diagram.png" alt="Scope Diagram Placeholder" />
+While the abundance of customer data and interactions offers significant insights for strategic decision-making, it is contingent on us effectively modelling this data to derive meaningful conclusions.
 
-# Approach
+<img src="/images/blog/identity/journey.jpg" alt="Consumer Journey Graph Placeholder" />
 
-ACXIOM was chosen as the vendor to help resolve consumer identities. While ACXIOM drives consumer record creation, internal review processes will handle exceptions and conflicting scenarios. This is a batch solution that runs daily or weekly, depending on file frequency.
+Tabular data (relational databases) fall short in that :
 
-{/* Placeholder for Vendor Integration Flow Image */}
-<img src="./images/vendor-integration-flow.png" alt="Vendor Integration Flow Placeholder" />
+- ** Information is collected as seemingly separate occurrences sourced from different systems, each employing different identifiers.
+- ** Analyzing the customer journey by sifting through tabular data is often more complex than a visual depiction of the events.
+- ** Monitoring temporal aspects of the customer journey for dynamic analysis is challenging when relying on a collection of combined tables.
 
-# Current State
+# Usecases of building an effective Identity graph in Marketing
+A well-designed Identity graph, associating both profiles and multi-channel events to an identity addresses several next-gen usecases:
 
-Currently, there are no individual identifiers associated with applicants and prospects, making it impossible to create a consumer graph.
+- **Multi-touch Attribution across channels**: Prospect may be marketed to through a particular channel but may appear to arrive on landing page organically – multi-touch attribution helps to attribute (even fractionally) conversion to right channels, enabling accurate measurement of CPA.
 
-# Future State
+- **Household-level Marketing and Influence analysis**: Prospective customers may drop off an in-progress application to do more research on the product. Intelligence on customers’ interactions with our webpage on their personal devices will help us understand their areas of concern and reach out to them with personalized information – proactively helping them move forward.
+- **Enable new re-engagement strategies**: Row-level security, data source credentials, and user permissions are managed centrally on Tableau Server, ensuring that sensitive data remains protected without limiting collaboration.
+- **Identify known individuals even with partial information**: Broad-market prospects with limited /missing/incorrectly recorded contact information can be matched to existing customer profiles using partial attribute matches  - helping us find the best way to reach out to them and re-engage
+- **Advanced personalization**: By leveragng ML feature stores and signals derived from events associated in graphs, very advanced offer propensity models can be put in place to improve profitability
+- **Next-best action** : Determine next best action, in marketing & servicing processes, based on omni-channel events, associated in the graph
+- **Datasource to Martech platforms** : A well-established identity graph can be an incredible foundational data structure for platform like CDPs 
 
-Once a consumer identity is established, all consumer activities can be tracked from solicitation to the end of the relationship across all products. This will provide insights into user behavior and assist in effective marketing and servicing strategies.
+# Design & implementation
 
-{/* Placeholder for Future State Workflow Image */}
-<img src="./images/future-state-workflow.png" alt="Future State Workflow Placeholder" />
+## Data Model
 
-# Data Exchange Process
+Data model is first piece of the puzzle to design an identity graph. Identifying potential usecases also helps in the design, as performance depends on design and design depends on queries run against the graph, which in turn depends on usecases.
 
-## High-Level Data Exchange
+Few other guiding principles to consider :-
+- ** Enhanced insights derived from the graph are used to augment benefits of the existing consumer identity framework.
+- ** Classifying features as nodes, properties, or relationship properties is driven by the business questions to be answered.
+- ** Effective model to represent and persist graph derived relationships back into a relational structure for downstream analysis.
+- ** Prioritize use-cases depending on whether a deterministic association solution is sufficient or GDS is necessary.
+- ** Oversight of data storage, retention, and privacy compliance in accordance with CCPA and GDPR regulations.
 
-The data exchange between Discover and ACXIOM involves several processes, including application matching, prospect matching, and customer matching.
+## Data Pipeline
 
-{/* Placeholder for Data Exchange Overview Image */}
-<img src="./images/data-exchange-overview.png" alt="Data Exchange Overview Placeholder" />
+Data pipeline design can vary significantly on whether implementation is on cloud vs on-prem. A cloud implementation might leverage PySpark/EMR for ETL, sourcing base data from Snowflake(as shown below). Neo4J GDS(Graph Data Science) will need to be leveraged to determine synthetic groupings(such as family-name based households) or linkages (probabilistic linkage of a web event to an identity)
 
-## Application Matching Process
+<img src="/images/blog/identity/etl.png" alt="ETL Placeholder" />
 
-1. **Applicant to Customer Pre-Matching:** Links applicants to customers using Discover IDs and PII verification.
-2. **Application Customer Lookup:** Identifies if an applicant is an existing Discover customer.
-3. **Application Consolidated PDB Match:** Identifies if an applicant is a Discover direct mail prospect or exists in ACXIOM's prospect knowledge base.
-
-## Prospect Matching Process
-
-1. **Prospect Identity Match:** Associates an identifier with direct mail prospects.
-2. **PDB Shift Communication:** Communicates any shift in identifiers identified by ACXIOM.
-
-## Customer Matching Process
-
-1. **Portfolio Match:** Ties a PDB identifier to all current Discover customers.
-2. **Customer PDB Match:** A weekly process to associate PDB identifiers with new customer relationships.
-
-# Egress and Ingress Processes
-
-## Egress Process (Discover to ACXIOM)
-
-Discover sends a file of applicants to ACXIOM daily for individual/household ID append. Restricted data elements are detokenized, and files are PGP encrypted before being pushed to ACXIOM.
-
-## Ingress Process (ACXIOM to Discover)
-
-ACXIOM pushes files and control files to Discover daily and weekly. Files are ingested, tokenized, and loaded to Snowflake via Cloud Data Fabric.
-
-{/* Placeholder for Egress/Ingress Flow Image */}
-<img src="./images/egress-ingress-flow.png" alt="Egress and Ingress Flow Placeholder" />
-
-# Detailed Data Flow Design
-
-The consumer ID generation process is a weekly process executed after all expected files for the week are delivered. Each record and its corresponding individual identifiers are compared with the current state in Discover's system to determine actions.
-
-# Consumer Action Consolidation
-
-Each record received as part of the consumer identity determination process is run through logic to determine the necessary action. Actions are aggregated at the individual ID level to identify all actions to be executed.
-
-# Different Actions
-
-There are seven potential actions based on the record's relationship and individual ID:
-
-- **New Consumer (NEW):** Assigned if a record contains an individual ID not existing in the system.
-- **Existing Consumer with a New Relationship (NEW-NOT-NEW):** Assigned if a record contains an individual ID existing in the system but representing a new relationship.
-- **Consumer Split (SPLIT):** Assigned if a record's individual ID has shifted.
-- **Consumer Merge (MERGE):** Assigned if a record's individual ID has shifted to an existing ID.
-- **Consumer Split Merge (SPLIT-MERGE):** Assigned if a record's individual ID has shifted and needs to be merged with a different record.
-- **Consumer Reassignment (SHIFT):** Assigned if a record's individual ID has shifted to a new ID.
-- **Consumer Reassignment (SHIFT-SPLIT):** An edge case of the SHIFT scenario.
-
-{/* Placeholder for Actions Decision Tree Image */}
-<img src="./images/actions-decision-tree.png" alt="Actions Decision Tree Placeholder" />
-
-# Prioritization of Actions
-
-Actions are prioritized to ensure the correct action is executed on the individual ID. Actions related to consumer record creation or reassignment cannot coexist with actions not tied to creation/reassignment.
-
-# Consumer Relationship Cross-Reference Management
-
-The consumer relationship cross-reference management involves detailed data flow design and table definitions to ensure accurate tracking and management of consumer relationships.
-
-# Testing Strategy
-
-## Data Exchange Validation
-
-Data exchange validation includes file layout validation, count validation, and decision validation to ensure the correct decisions are made on Perm IDs based on PDBs assigned.
-
-## Process Monitoring
-
-Approximately 50 Snowflake dashboards are monitored weekly to ensure the Consumer Identity Process runs as expected.
-
-## Data Exchange Patterns for Testing in Dev
-
-Data is exchanged between Discover and ACXIOM to test rule execution in the Dev region. Data is sent to ACXIOM in the PROD space with true PII for applicants and returned to Discover in the Dev region with masked PII.
-
-## Application Data Exchange Process
-
-The application data exchange process involves sending applicant data daily and receiving matched data from ACXIOM.
-
-{/* Placeholder for Testing Strategy Image */}
-<img src="./images/testing-strategy.png" alt="Testing Strategy Placeholder" />
+#### Tactical Optimizations 
+- ** A data aggregation strategy aimed at managing high-volume events while preserving essential information e.g. web interaction events.
+- ** Reduce unnecessary node scanning through predicate pushdown – coding common filtering criteria as relationship labels or properties.
+- For tracking direct mail offers, we found it more effective to code channel type as a relationship instead of a property of the offer node, prioritizing relationship properties over node properties.
+- ** Transforming text features into embeddings prior to graph storage – enhanced flexibility by enabling more versatile fuzzy matching queries.
+- ** A versatile data model designed to support all create, update, and delete operations.
+- ** Cleaning & standardizing data in before importing it into the graph - to avoid dense nodes and irrelevant traversals that can slow memory and traversals
+- Test or fabricated email IDs, visitor IDs from recognized bot IPs, non-standard/unrecognizable phone numbers etc. can be identified and excluded to reduce.
 
 # Conclusion
 
-The Consumer Identity Resolution initiative is a comprehensive effort to enhance customer tracking and engagement by creating a consistent Analytical Identifier. This identifier will provide valuable insights into consumer behavior, aiding in effective marketing and servicing strategies.
+A sophisticated enterprise-wide Identity graph can super-charge marketing and CX experience efforts and lead to step-change impacts on profitability. The effort around creating such a graph shouldnt be under-estimated but with diligent focus on data quality/governance, it can be accomplished.
