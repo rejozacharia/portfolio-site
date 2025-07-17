@@ -15,17 +15,17 @@ interface Project {
 const highlightedProjects: Project[] = [
   // ... (Keep the existing highlightedProjects array definition) ...
   {
-    title: "Enterprise Control Environment",
+    title: "Self-Service BI",
     summary:
-      "Led the development of a sophisticated enterprise control library and associated exception case management capability in ServiceNow, enhancing governance and operational efficiency.",
-    tech: ["ServiceNow", "Data Governance", "Process Automation"],
+      "Build semantic self-service BI layers for KPI standardization, speed-of-delivery and democratizing analytics and reporting",
+    tech: ["Self-Service BI", "Tableau", "AtScale", "KPI standardization"],
     // imageUrl: "/images/placeholder-control.png" // Example placeholder path
   },
   {
-    title: "MarTech/CDP Implementation",
+    title: "Enterprise Identity Graph / Customer360",
     summary:
-      "Collaborated with various teams to implement key MarTech/CDP solutions (e.g., Neustar, Segment), significantly improving enterprise marketing activation, customer journey orchestration, and personalization capabilities.",
-    tech: ["MarTech", "CDP", "Neustar", "Segment", "Customer Data Management"],
+      " Neo4j-powered consumer identity graphs enable Discover to identify, unify, and engage both prospects and existing customers across multiple products and channels.",
+    tech: ["Graph DB","Neo4j", "Customer360", "Identity Resolution", "Omni-Channel Tracking", "Personalization", "Next Best Action"],
     //imageUrl: "/images/placeholder-martech.png" // Example placeholder path
   },
 ];

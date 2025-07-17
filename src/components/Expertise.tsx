@@ -32,13 +32,14 @@ const expertiseAreas = [
   {
     title: "Data Science & AI/ML",
     skills: [
-      "Machine Learning (ML) Model Development & Implementation",
       "AI Strategy & Vision",
+      "Machine Learning (ML) Model Development & Implementation",
       "Predictive Modeling (Credit Risk, Retention, Pre-payment)",
       "ML Feature Engineering & Datastores",
       "MLOps (Concept & Certification)",
       "Natural Language Processing (NLP - Implied)",
       "Graph Analytics (Neo4j, RAG)",
+      "Data Science Languages (Python, SAS)",
     ],
   },
   {
@@ -49,9 +50,10 @@ const expertiseAreas = [
       "Enterprise Identity Graphs",
       "Data Platform Architecture",
       "ETL/ELT Pipeline Development",
-      "Data Warehousing",
-      "MarTech/CDP Implementation (Neustar, Segment)",
+      "Data Warehousing (Snowflake, Teradata)",
       "Data Governance & Control Environments",
+      "Data Stewardship",
+      "DAMA Certified Data Management Professional",
     ],
   },
   {
@@ -62,8 +64,9 @@ const expertiseAreas = [
       "Marketing & Business Analytics",
       "Executive Dashboards & Reporting",
       "Pricing Analytics & Strategy",
-      "Performance Metrics Analysis (CPFL, Conversion)",
+      "Performance Metrics Analysis (CPA, Conversion etc.)",
       "Data Visualization",
+      "BI Tools (Tableau, AtScale etc.)",
     ],
   },
   {
@@ -71,11 +74,10 @@ const expertiseAreas = [
     skills: [
       "Cloud Platforms (AWS Certified)",
       "Databases (SQL, NoSQL, Graph - Neo4j)",
-      "BI Tools (Conceptual)",
-      "Data Science Languages (Python - Assumed)",
-      "ML Frameworks (Conceptual)",
+      "Cloud ML Frameworks",
       "MarTech Platforms (Neustar, Segment)",
       "ServiceNow (Case Management)",
+      "Enterprise Architecture",
     ],
   },
 ];
@@ -84,9 +86,9 @@ const expertiseAreas = [
 const skillProficiencyData = [
   { subject: "Leadership", A: 95, fullMark: 100 },
   { subject: "AI/ML", A: 90, fullMark: 100 },
-  { subject: "Data Eng.", A: 85, fullMark: 100 },
-  { subject: "BI/Analytics", A: 88, fullMark: 100 },
-  { subject: "Technology", A: 80, fullMark: 100 },
+  { subject: "Data Eng.", A: 95, fullMark: 100 },
+  { subject: "BI/Analytics", A: 100, fullMark: 100 },
+  { subject: "Technology", A: 85, fullMark: 100 },
 ];
 
 // Animation variants for fade-in effect

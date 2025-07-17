@@ -26,7 +26,7 @@ const experiences: ExperienceItem[] = [
       "Led workstreams on student loan portfolio transfer.",
       "Built Enterprise Identity graph & Customer360 MDM data structures.",
       "Collaborated on MarTech/CDP solutions (Neustar, Segment).",
-      "Managed multi-discipline, multi-geography team (~35 people).",
+      "Managed multi-discipline, multi-geography team (~25 people).",
       "Envisioned and executed phases of multi-year data & analytics platform strategy.",
     ],
   },
@@ -36,7 +36,7 @@ const experiences: ExperienceItem[] = [
     dates: "Oct 2018 – June 2022",
     description: [
       "Head of Data Science, BI, and Data Management/Engineering for Consumer Banking.",
-      "Led ML/analytics initiatives generating ~$60MM annual cost benefits.",
+      "Led ML/analytics initiatives generating ~$10MM annual cost benefits.",
       "Built generalized ML feature datastore for multiple products.",
       "Implemented self-service BI capabilities across Consumer Banking.",
       "Interacted frequently with C-level executives on strategy and data literacy.",
